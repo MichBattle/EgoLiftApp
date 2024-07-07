@@ -8,19 +8,31 @@ struct AllenamentoDetailView: View {
     @State private var tempoRecupero: String = ""
     
     var body: some View {
-        VStack {
+        VStack(spacing: 16) {
             TextField("Nome Esercizio", text: $nuovoEsercizioNome)
                 .padding()
                 .textFieldStyle(RoundedBorderTextFieldStyle())
+                .frame(maxWidth: .infinity)
             
-            TextField("Descrizione Esercizio", text: $nuovaDescrizione)
-                .padding()
-                .textFieldStyle(RoundedBorderTextFieldStyle())
+            VStack(alignment: .leading) {
+                if nuovaDescrizione.isEmpty {
+                    Text("Descrizione Esercizio")
+                        .foregroundColor(.gray)
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 12)
+                }
+                TextEditor(text: $nuovaDescrizione)
+                    .padding(4)
+                    .frame(maxWidth: .infinity, minHeight: 150)
+                    .background(RoundedRectangle(cornerRadius: 8).stroke(Color.gray, lineWidth: 1))
+            }
+            .frame(maxWidth: .infinity)
             
             TextField("Tempo di Recupero (secondi)", text: $tempoRecupero)
                 .keyboardType(.numberPad)
                 .padding()
                 .textFieldStyle(RoundedBorderTextFieldStyle())
+                .frame(maxWidth: .infinity)
             
             Button(action: {
                 if let recupero = Int(tempoRecupero) {
@@ -48,6 +60,7 @@ struct AllenamentoDetailView: View {
                 }
             }
         }
+        .padding()
         .navigationBarTitle(allenamento.nome)
         .navigationBarItems(trailing: EditButton())
     }
