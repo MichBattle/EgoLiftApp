@@ -14,7 +14,7 @@ struct AllenamentoDetailView: View {
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .frame(maxWidth: .infinity)
             
-            VStack(alignment: .leading) {
+            ZStack(alignment: .topLeading) {
                 if nuovaDescrizione.isEmpty {
                     Text("Descrizione Esercizio")
                         .foregroundColor(.gray)
@@ -23,8 +23,8 @@ struct AllenamentoDetailView: View {
                 }
                 TextEditor(text: $nuovaDescrizione)
                     .padding(4)
-                    .frame(maxWidth: .infinity, minHeight: 150)
                     .background(RoundedRectangle(cornerRadius: 8).stroke(Color.gray, lineWidth: 1))
+                    .frame(maxWidth: .infinity, minHeight: 150)
             }
             .frame(maxWidth: .infinity)
             
@@ -32,7 +32,12 @@ struct AllenamentoDetailView: View {
                 .keyboardType(.numberPad)
                 .padding()
                 .textFieldStyle(RoundedBorderTextFieldStyle())
-                .frame(maxWidth: .infinity)
+                .onChange(of: tempoRecupero) { newValue in
+                    let filtered = newValue.filter { "0123456789".contains($0) }
+                    if filtered != newValue {
+                        self.tempoRecupero = filtered
+                    }
+                }
             
             Button(action: {
                 if let recupero = Int(tempoRecupero) {
@@ -48,7 +53,7 @@ struct AllenamentoDetailView: View {
             
             List {
                 ForEach(allenamento.esercizi, id: \.id) { esercizio in
-                    NavigationLink(destination: EsercizioTabView(esercizi: allenamento.esercizi, currentIndex: allenamento.esercizi.firstIndex(of: esercizio) ?? 0)) {
+                    NavigationLink(destination: EsercizioDetailView(esercizio: esercizio)) {
                         Text(esercizio.nome)
                     }
                 }

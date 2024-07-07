@@ -17,6 +17,8 @@
 		864AA6622C3AF8BD00C6906F /* AllenamentoDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864AA6612C3AF8BD00C6906F /* AllenamentoDetailView.swift */; };
 		864AA6642C3AF8CC00C6906F /* EsercizioDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864AA6632C3AF8CC00C6906F /* EsercizioDetailView.swift */; };
 		864AA6662C3AFCFB00C6906F /* EsercizioTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864AA6652C3AFCFB00C6906F /* EsercizioTabView.swift */; };
+		8662B79B2C3B083A007E80E1 /* EsercizioEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8662B79A2C3B083A007E80E1 /* EsercizioEditView.swift */; };
+		8662B79D2C3B13C6007E80E1 /* NoteListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8662B79C2C3B13C6007E80E1 /* NoteListView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +33,8 @@
 		864AA6612C3AF8BD00C6906F /* AllenamentoDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllenamentoDetailView.swift; sourceTree = "<group>"; };
 		864AA6632C3AF8CC00C6906F /* EsercizioDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EsercizioDetailView.swift; sourceTree = "<group>"; };
 		864AA6652C3AFCFB00C6906F /* EsercizioTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EsercizioTabView.swift; sourceTree = "<group>"; };
+		8662B79A2C3B083A007E80E1 /* EsercizioEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EsercizioEditView.swift; sourceTree = "<group>"; };
+		8662B79C2C3B13C6007E80E1 /* NoteListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteListView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +77,8 @@
 				864AA6612C3AF8BD00C6906F /* AllenamentoDetailView.swift */,
 				864AA6632C3AF8CC00C6906F /* EsercizioDetailView.swift */,
 				864AA6652C3AFCFB00C6906F /* EsercizioTabView.swift */,
+				8662B79A2C3B083A007E80E1 /* EsercizioEditView.swift */,
+				8662B79C2C3B13C6007E80E1 /* NoteListView.swift */,
 			);
 			path = EgoLift;
 			sourceTree = "<group>";
@@ -157,11 +163,13 @@
 			files = (
 				864AA6662C3AFCFB00C6906F /* EsercizioTabView.swift in Sources */,
 				864AA6502C3AF78100C6906F /* ContentView.swift in Sources */,
+				8662B79D2C3B13C6007E80E1 /* NoteListView.swift in Sources */,
 				864AA64E2C3AF78100C6906F /* EgoLiftApp.swift in Sources */,
 				864AA6622C3AF8BD00C6906F /* AllenamentoDetailView.swift in Sources */,
 				864AA6602C3AF8AC00C6906F /* Allenamento.swift in Sources */,
 				864AA6642C3AF8CC00C6906F /* EsercizioDetailView.swift in Sources */,
 				864AA65C2C3AF88800C6906F /* Note.swift in Sources */,
+				8662B79B2C3B083A007E80E1 /* EsercizioEditView.swift in Sources */,
 				864AA65E2C3AF89E00C6906F /* Esercizio.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
