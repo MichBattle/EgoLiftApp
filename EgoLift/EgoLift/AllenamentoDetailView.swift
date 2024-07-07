@@ -2,6 +2,7 @@ import SwiftUI
 
 struct AllenamentoDetailView: View {
     @ObservedObject var allenamento: Allenamento
+    @ObservedObject var palestra: Palestra
     @State private var nuovoEsercizioNome: String = ""
     @State private var nuovaDescrizione: String = ""
     @State private var tempoRecupero: String = ""
@@ -39,8 +40,15 @@ struct AllenamentoDetailView: View {
                         Text(esercizio.nome)
                     }
                 }
+                .onDelete { indices in
+                    indices.forEach { index in
+                        let esercizio = allenamento.esercizi[index]
+                        allenamento.eliminaEsercizio(esercizio: esercizio)
+                    }
+                }
             }
         }
         .navigationBarTitle(allenamento.nome)
+        .navigationBarItems(trailing: EditButton())
     }
 }

@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var allenamenti: [Allenamento] = []
+    @ObservedObject var palestra = Palestra()
     @State private var nuovoAllenamentoNome: String = ""
     
     var body: some View {
@@ -12,8 +12,7 @@ struct ContentView: View {
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                 
                 Button(action: {
-                    let nuovoAllenamento = Allenamento(nome: nuovoAllenamentoNome)
-                    allenamenti.append(nuovoAllenamento)
+                    palestra.aggiungiAllenamento(nome: nuovoAllenamentoNome)
                     nuovoAllenamentoNome = ""
                 }) {
                     Text("Aggiungi Allenamento")
@@ -21,14 +20,21 @@ struct ContentView: View {
                 .padding()
                 
                 List {
-                    ForEach(allenamenti, id: \.id) { allenamento in
-                        NavigationLink(destination: AllenamentoDetailView(allenamento: allenamento)) {
+                    ForEach(palestra.allenamenti, id: \.id) { allenamento in
+                        NavigationLink(destination: AllenamentoDetailView(allenamento: allenamento, palestra: palestra)) {
                             Text(allenamento.nome)
+                        }
+                    }
+                    .onDelete { indices in
+                        indices.forEach { index in
+                            let allenamento = palestra.allenamenti[index]
+                            palestra.eliminaAllenamento(allenamento: allenamento)
                         }
                     }
                 }
             }
             .navigationBarTitle("Allenamenti")
+            .navigationBarItems(trailing: EditButton())
         }
     }
 }
