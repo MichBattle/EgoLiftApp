@@ -22,19 +22,9 @@ struct EsercizioEditView: View {
                     .padding()
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                 
-                ZStack(alignment: .topLeading) {
-                    if descrizione.isEmpty {
-                        Text("Descrizione Esercizio")
-                            .foregroundColor(.gray)
-                            .padding(.horizontal, 8)
-                            .padding(.vertical, 12)
-                    }
-                    TextEditor(text: $descrizione)
-                        .padding(4)
-                        .background(RoundedRectangle(cornerRadius: 8).stroke(Color.gray, lineWidth: 1))
-                        .frame(maxWidth: .infinity, minHeight: 150)
-                }
-                .frame(maxWidth: .infinity)
+                TextField("Descrizione Esercizio", text: $descrizione)
+                    .padding()
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
                 
                 TextField("Tempo di Recupero (secondi)", text: $tempoRecupero)
                     .keyboardType(.numberPad)

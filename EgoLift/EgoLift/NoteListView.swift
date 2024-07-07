@@ -3,6 +3,7 @@ import SwiftUI
 struct NoteListView: View {
     @ObservedObject var esercizio: Esercizio
     @State private var nuovaNota: String = ""
+    @State private var isAddingNota: Bool = false
     
     var body: some View {
         VStack {
@@ -13,23 +14,45 @@ struct NoteListView: View {
                 .onDelete(perform: eliminaNota)
             }
             
-            HStack {
-                TextField("Aggiungi Nota", text: $nuovaNota)
+            Spacer()
+        }
+        .navigationBarTitle("Note", displayMode: .inline)
+        .navigationBarItems(trailing: Button(action: {
+            isAddingNota.toggle()
+        }) {
+            Text("+")
+                .font(.largeTitle)
+                .frame(width: 30, height: 30)
+        })
+        .sheet(isPresented: $isAddingNota) {
+            VStack {
+                Text("Nuova Nota")
+                    .font(.headline)
                     .padding()
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                
+                TextEditor(text: $nuovaNota)
+                    .padding()
+                    .frame(maxWidth: .infinity, minHeight: 150)
+                    .background(RoundedRectangle(cornerRadius: 8).stroke(Color.gray, lineWidth: 1))
                 
                 Button(action: {
                     esercizio.aggiungiNota(content: nuovaNota)
                     nuovaNota = ""
+                    isAddingNota = false
                 }) {
                     Text("Aggiungi Nota")
+                }
+                .padding()
+                
+                Button(action: {
+                    isAddingNota = false
+                }) {
+                    Text("Annulla")
                 }
                 .padding()
             }
             .padding()
         }
-        .navigationBarTitle("Note", displayMode: .inline)
-        .navigationBarItems(trailing: EditButton())
     }
     
     private func eliminaNota(at offsets: IndexSet) {

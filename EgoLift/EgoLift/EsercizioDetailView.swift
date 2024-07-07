@@ -31,6 +31,7 @@ struct EsercizioDetailView: View {
                 ProgressView(value: totalSeconds - secondsRemaining, total: totalSeconds)
                     .progressViewStyle(LinearProgressViewStyle())
                     .padding()
+                    .animation(.linear(duration: 0.1), value: secondsRemaining)
             }
             
             if timerRunning {
@@ -88,9 +89,9 @@ struct EsercizioDetailView: View {
         totalSeconds = Double(esercizio.tempoRecupero)
         secondsRemaining = totalSeconds
         timerRunning = true
-        timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { _ in
+        timer = Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true) { _ in
             if secondsRemaining > 0 {
-                secondsRemaining -= 0.1
+                secondsRemaining -= 0.01
             } else {
                 timer?.invalidate()
                 timerRunning = false

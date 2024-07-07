@@ -1,8 +1,8 @@
 import Foundation
 
-class Note: Identifiable, ObservableObject {
+class Note: Identifiable {
     var id = UUID()
-    @Published var content: String
+    var content: String
     
     init(content: String) {
         self.content = content

@@ -6,51 +6,10 @@ struct AllenamentoDetailView: View {
     @State private var nuovoEsercizioNome: String = ""
     @State private var nuovaDescrizione: String = ""
     @State private var tempoRecupero: String = ""
+    @State private var isAddingEsercizio: Bool = false
     
     var body: some View {
-        VStack(spacing: 16) {
-            TextField("Nome Esercizio", text: $nuovoEsercizioNome)
-                .padding()
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .frame(maxWidth: .infinity)
-            
-            ZStack(alignment: .topLeading) {
-                if nuovaDescrizione.isEmpty {
-                    Text("Descrizione Esercizio")
-                        .foregroundColor(.gray)
-                        .padding(.horizontal, 8)
-                        .padding(.vertical, 12)
-                }
-                TextEditor(text: $nuovaDescrizione)
-                    .padding(4)
-                    .background(RoundedRectangle(cornerRadius: 8).stroke(Color.gray, lineWidth: 1))
-                    .frame(maxWidth: .infinity, minHeight: 150)
-            }
-            .frame(maxWidth: .infinity)
-            
-            TextField("Tempo di Recupero (secondi)", text: $tempoRecupero)
-                .keyboardType(.numberPad)
-                .padding()
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .onChange(of: tempoRecupero) { newValue in
-                    let filtered = newValue.filter { "0123456789".contains($0) }
-                    if filtered != newValue {
-                        self.tempoRecupero = filtered
-                    }
-                }
-            
-            Button(action: {
-                if let recupero = Int(tempoRecupero) {
-                    allenamento.aggiungiEsercizio(nome: nuovoEsercizioNome, descrizione: nuovaDescrizione, tempoRecupero: recupero)
-                    nuovoEsercizioNome = ""
-                    nuovaDescrizione = ""
-                    tempoRecupero = ""
-                }
-            }) {
-                Text("Aggiungi Esercizio")
-            }
-            .padding()
-            
+        VStack {
             List {
                 ForEach(allenamento.esercizi, id: \.id) { esercizio in
                     NavigationLink(destination: EsercizioDetailView(esercizio: esercizio)) {
@@ -64,9 +23,87 @@ struct AllenamentoDetailView: View {
                     }
                 }
             }
+            
+            Spacer()
         }
-        .padding()
         .navigationBarTitle(allenamento.nome)
-        .navigationBarItems(trailing: EditButton())
+        .navigationBarItems(trailing: Button(action: {
+            isAddingEsercizio.toggle()
+        }) {
+            Text("+")
+                .font(.largeTitle)
+                .frame(width: 30, height: 30)
+        })
+        .sheet(isPresented: $isAddingEsercizio) {
+            VStack {
+                Text("Nuovo Esercizio")
+                    .font(.headline)
+                    .padding()
+                
+                VStack(alignment: .leading) {
+                    Text("Nome Esercizio")
+                        .foregroundColor(.gray)
+                        .padding(.horizontal, 8)
+                        .padding(.top, 12)
+                    TextEditor(text: $nuovoEsercizioNome)
+                        .padding(4)
+                        .frame(maxWidth: .infinity, minHeight: 50)
+                        .background(RoundedRectangle(cornerRadius: 8).stroke(Color.gray, lineWidth: 1))
+                }
+                .frame(maxWidth: .infinity)
+                
+                VStack(alignment: .leading) {
+                    Text("Descrizione Esercizio")
+                        .foregroundColor(.gray)
+                        .padding(.horizontal, 8)
+                        .padding(.top, 12)
+                    TextEditor(text: $nuovaDescrizione)
+                        .padding(4)
+                        .frame(maxWidth: .infinity, minHeight: 50)
+                        .background(RoundedRectangle(cornerRadius: 8).stroke(Color.gray, lineWidth: 1))
+                }
+                .frame(maxWidth: .infinity)
+                
+                VStack(alignment: .leading) {
+                    Text("Tempo di Recupero (secondi)")
+                        .foregroundColor(.gray)
+                        .padding(.horizontal, 8)
+                        .padding(.top, 12)
+                    TextEditor(text: $tempoRecupero)
+                        .keyboardType(.numberPad)
+                        .padding(4)
+                        .frame(maxWidth: .infinity, minHeight: 50)
+                        .background(RoundedRectangle(cornerRadius: 8).stroke(Color.gray, lineWidth: 1))
+                        .onChange(of: tempoRecupero) { newValue in
+                            let filtered = newValue.filter { "0123456789".contains($0) }
+                            if filtered != newValue {
+                                self.tempoRecupero = filtered
+                            }
+                        }
+                }
+                .frame(maxWidth: .infinity)
+                
+                Button(action: {
+                    if let recupero = Int(tempoRecupero) {
+                        allenamento.aggiungiEsercizio(nome: nuovoEsercizioNome, descrizione: nuovaDescrizione, tempoRecupero: recupero)
+                        nuovoEsercizioNome = ""
+                        nuovaDescrizione = ""
+                        tempoRecupero = ""
+                        isAddingEsercizio = false
+                    }
+                }) {
+                    Text("Aggiungi Esercizio")
+                }
+                .padding()
+                
+                Button(action: {
+                    isAddingEsercizio = false
+                }) {
+                    Text("Annulla")
+                }
+                .padding()
+            }
+            .padding()
+        }
     }
 }
