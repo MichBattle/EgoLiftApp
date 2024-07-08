@@ -19,6 +19,7 @@
 		864AA6662C3AFCFB00C6906F /* EsercizioTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864AA6652C3AFCFB00C6906F /* EsercizioTabView.swift */; };
 		8662B79B2C3B083A007E80E1 /* EsercizioEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8662B79A2C3B083A007E80E1 /* EsercizioEditView.swift */; };
 		8662B79D2C3B13C6007E80E1 /* NoteListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8662B79C2C3B13C6007E80E1 /* NoteListView.swift */; };
+		86ADDA362C3BE756007D02C6 /* TimerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86ADDA352C3BE756007D02C6 /* TimerManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +36,7 @@
 		864AA6652C3AFCFB00C6906F /* EsercizioTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EsercizioTabView.swift; sourceTree = "<group>"; };
 		8662B79A2C3B083A007E80E1 /* EsercizioEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EsercizioEditView.swift; sourceTree = "<group>"; };
 		8662B79C2C3B13C6007E80E1 /* NoteListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteListView.swift; sourceTree = "<group>"; };
+		86ADDA352C3BE756007D02C6 /* TimerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +81,7 @@
 				864AA6652C3AFCFB00C6906F /* EsercizioTabView.swift */,
 				8662B79A2C3B083A007E80E1 /* EsercizioEditView.swift */,
 				8662B79C2C3B13C6007E80E1 /* NoteListView.swift */,
+				86ADDA352C3BE756007D02C6 /* TimerManager.swift */,
 			);
 			path = EgoLift;
 			sourceTree = "<group>";
@@ -163,6 +166,7 @@
 			files = (
 				864AA6662C3AFCFB00C6906F /* EsercizioTabView.swift in Sources */,
 				864AA6502C3AF78100C6906F /* ContentView.swift in Sources */,
+				86ADDA362C3BE756007D02C6 /* TimerManager.swift in Sources */,
 				8662B79D2C3B13C6007E80E1 /* NoteListView.swift in Sources */,
 				864AA64E2C3AF78100C6906F /* EgoLiftApp.swift in Sources */,
 				864AA6622C3AF8BD00C6906F /* AllenamentoDetailView.swift in Sources */,
