@@ -59,6 +59,7 @@ struct EsercizioDetailView: View {
                     Text("Modifica")
                 }
                 .padding()
+                .disabled(timerRunning) // Disattiva il pulsante se il timer è in esecuzione
                 .sheet(isPresented: $isEditing) {
                     EsercizioEditView(esercizio: esercizio, isPresented: $isEditing)
                 }
@@ -71,6 +72,7 @@ struct EsercizioDetailView: View {
                     Text("Note")
                 }
                 .padding()
+                .disabled(timerRunning) // Disattiva il pulsante se il timer è in esecuzione
                 .background(
                     NavigationLink(destination: NoteListView(esercizio: esercizio), isActive: $isViewingNotes) {
                         EmptyView()
