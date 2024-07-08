@@ -2,12 +2,9 @@ import SwiftUI
 
 struct EsercizioDetailView: View {
     @ObservedObject var esercizio: Esercizio
+    @ObservedObject var timerManager = TimerManager.shared
     @State private var isEditing: Bool = false
     @State private var isViewingNotes: Bool = false
-    @State private var timerRunning: Bool = false
-    @State private var secondsRemaining: Double = 0
-    @State private var totalSeconds: Double = 0
-    @State private var timer: Timer?
     
     var body: some View {
         VStack(spacing: 16) {
@@ -23,27 +20,27 @@ struct EsercizioDetailView: View {
                 .background(Color.gray.opacity(0.1))
                 .cornerRadius(8)
             
-            if timerRunning {
-                Text("Tempo rimanente: \(Int(secondsRemaining)) secondi")
+            if timerManager.timerRunning {
+                Text("Tempo rimanente: \(Int(timerManager.secondsRemaining)) secondi")
                     .font(.largeTitle)
                     .padding()
                 
-                ProgressView(value: totalSeconds - secondsRemaining, total: totalSeconds)
+                ProgressView(value: timerManager.secondsRemaining, total: Double(esercizio.tempoRecupero))
                     .progressViewStyle(LinearProgressViewStyle())
                     .padding()
-                    .animation(.linear(duration: 0.1), value: secondsRemaining)
+                    .animation(.linear(duration: 0.1), value: timerManager.secondsRemaining)
             }
             
-            if timerRunning {
+            if timerManager.timerRunning {
                 Button(action: {
-                    stopTimer()
+                    timerManager.stopTimer()
                 }) {
                     Text("Stop Timer")
                 }
                 .padding()
             } else {
                 Button(action: {
-                    startTimer()
+                    timerManager.startTimer(duration: Double(esercizio.tempoRecupero))
                 }) {
                     Text("Avvia Timer")
                 }
@@ -59,7 +56,6 @@ struct EsercizioDetailView: View {
                     Text("Modifica")
                 }
                 .padding()
-                .disabled(timerRunning) // Disattiva il pulsante se il timer è in esecuzione
                 .sheet(isPresented: $isEditing) {
                     EsercizioEditView(esercizio: esercizio, isPresented: $isEditing)
                 }
@@ -72,7 +68,6 @@ struct EsercizioDetailView: View {
                     Text("Note")
                 }
                 .padding()
-                .disabled(timerRunning) // Disattiva il pulsante se il timer è in esecuzione
                 .background(
                     NavigationLink(destination: NoteListView(esercizio: esercizio), isActive: $isViewingNotes) {
                         EmptyView()
@@ -82,27 +77,8 @@ struct EsercizioDetailView: View {
         }
         .padding()
         .navigationBarTitle(esercizio.nome, displayMode: .inline)
-        .onDisappear {
-            timer?.invalidate()
+        .onAppear {
+            timerManager.loadTimerState()
         }
-    }
-    
-    private func startTimer() {
-        totalSeconds = Double(esercizio.tempoRecupero)
-        secondsRemaining = totalSeconds
-        timerRunning = true
-        timer = Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true) { _ in
-            if secondsRemaining > 0 {
-                secondsRemaining -= 0.01
-            } else {
-                timer?.invalidate()
-                timerRunning = false
-            }
-        }
-    }
-    
-    private func stopTimer() {
-        timer?.invalidate()
-        timerRunning = false
     }
 }
