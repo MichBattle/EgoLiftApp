@@ -26,7 +26,7 @@ struct EsercizioDetailView: View {
                     .padding()
                 
                 ProgressView(value: timerManager.secondsRemaining, total: Double(esercizio.tempoRecupero))
-                    .progressViewStyle(LinearProgressViewStyle())
+                    .progressViewStyle(LinearProgressViewStyle(tint: timerManager.currentEsercizioID == esercizio.id ? Color.green : Color.red))
                     .padding()
                     .animation(.linear(duration: 0.1), value: timerManager.secondsRemaining)
             }
@@ -40,7 +40,7 @@ struct EsercizioDetailView: View {
                 .padding()
             } else {
                 Button(action: {
-                    timerManager.startTimer(duration: Double(esercizio.tempoRecupero))
+                    timerManager.startTimer(duration: Double(esercizio.tempoRecupero), for: esercizio.id)
                 }) {
                     Text("Avvia Timer")
                 }

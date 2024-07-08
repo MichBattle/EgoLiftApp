@@ -5,16 +5,18 @@ class TimerManager: ObservableObject {
     
     @Published var timerRunning = false
     @Published var secondsRemaining: Double = 0
+    @Published var currentEsercizioID: UUID? // Aggiunta questa proprietà
     private var timer: Timer?
     
     private init() {
         loadTimerState()
     }
     
-    func startTimer(duration: Double) {
+    func startTimer(duration: Double, for esercizioID: UUID) {
         if !timerRunning {
             secondsRemaining = duration
             timerRunning = true
+            currentEsercizioID = esercizioID // Salva l'ID dell'esercizio
             runTimer()
         }
     }
@@ -23,6 +25,7 @@ class TimerManager: ObservableObject {
         timer?.invalidate()
         timer = nil
         timerRunning = false
+        currentEsercizioID = nil // Resetta l'ID dell'esercizio
         clearTimerState()
     }
     
@@ -37,6 +40,7 @@ class TimerManager: ObservableObject {
                 self.timer?.invalidate()
                 self.timer = nil
                 self.timerRunning = false
+                self.currentEsercizioID = nil // Resetta l'ID dell'esercizio
                 self.clearTimerState()
             }
         }
@@ -45,6 +49,9 @@ class TimerManager: ObservableObject {
     func saveTimerState() {
         UserDefaults.standard.set(secondsRemaining, forKey: "secondsRemaining")
         UserDefaults.standard.set(timerRunning, forKey: "timerRunning")
+        if let currentEsercizioID = currentEsercizioID {
+            UserDefaults.standard.set(currentEsercizioID.uuidString, forKey: "currentEsercizioID")
+        }
     }
     
     func loadTimerState() {
@@ -57,6 +64,9 @@ class TimerManager: ObservableObject {
                 runTimer()
             }
         }
+        if let savedEsercizioID = UserDefaults.standard.string(forKey: "currentEsercizioID"), let uuid = UUID(uuidString: savedEsercizioID) {
+            currentEsercizioID = uuid
+        }
     }
     
     func invalidateTimer() {
@@ -67,5 +77,6 @@ class TimerManager: ObservableObject {
     private func clearTimerState() {
         UserDefaults.standard.removeObject(forKey: "secondsRemaining")
         UserDefaults.standard.removeObject(forKey: "timerRunning")
+        UserDefaults.standard.removeObject(forKey: "currentEsercizioID")
     }
 }

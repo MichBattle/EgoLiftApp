@@ -11,9 +11,9 @@ struct AllenamentoDetailView: View {
     var body: some View {
         VStack {
             List {
-                ForEach(allenamento.esercizi, id: \.id) { esercizio in
-                    NavigationLink(destination: EsercizioDetailView(esercizio: esercizio)) {
-                        Text(esercizio.nome)
+                ForEach(allenamento.esercizi.indices, id: \.self) { index in
+                    NavigationLink(destination: EsercizioTabView(esercizi: allenamento.esercizi, currentIndex: index)) {
+                        Text(allenamento.esercizi[index].nome)
                     }
                 }
                 .onDelete { indices in
