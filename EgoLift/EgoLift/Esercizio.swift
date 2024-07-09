@@ -1,8 +1,7 @@
 import Foundation
-import SQLite
 
 class Esercizio: Identifiable, ObservableObject, Equatable {
-    var id = UUID()
+    var id: UUID
     @Published var nome: String
     @Published var descrizione: String
     @Published var tempoRecupero: Int
@@ -10,7 +9,8 @@ class Esercizio: Identifiable, ObservableObject, Equatable {
     @Published var tipo: String
     @Published var note: [Note]
 
-    init(nome: String, descrizione: String, tempoRecupero: Int, numeroSet: String, tipo: String) {
+    init(id: UUID = UUID(), nome: String, descrizione: String, tempoRecupero: Int, numeroSet: String, tipo: String) {
+        self.id = id
         self.nome = nome
         self.descrizione = descrizione
         self.tempoRecupero = tempoRecupero

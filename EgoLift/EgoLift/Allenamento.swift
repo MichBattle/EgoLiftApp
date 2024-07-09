@@ -32,7 +32,6 @@ class Allenamento: Identifiable, ObservableObject, Equatable {
         return false
     }
 
-
     func rimuoviEsercizio(esercizio: Esercizio) {
         if let index = esercizi.firstIndex(of: esercizio) {
             esercizi.remove(at: index)

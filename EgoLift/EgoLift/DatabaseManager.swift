@@ -173,17 +173,6 @@ class DatabaseManager {
             return false
         }
     }
-    
-    func esercizioEsistePerAllenamento(nome: String, descrizione: String, allenamentoID: Int64) -> Bool {
-        let query = eserciziTable.filter(self.nome == nome && self.descrizione == descrizione && self.allenamentoID == allenamentoID)
-        do {
-            let count = try db?.scalar(query.count) ?? 0
-            return count > 0
-        } catch {
-            print("Error checking if esercizio exists for allenamento: \(error)")
-            return false
-        }
-    }
 
     // Funzione per aggiungere un esercizio esistente
     func addEsercizioEsistente(esercizio: Esercizio, to allenamentoID: Int64) -> Bool {
@@ -203,7 +192,6 @@ class DatabaseManager {
             return false
         }
     }
-
     
     // Funzione per trovare un esercizio globale
     func trovaEsercizioGlobale(nome: String, descrizione: String) -> Esercizio? {

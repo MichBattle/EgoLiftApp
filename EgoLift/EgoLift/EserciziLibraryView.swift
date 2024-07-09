@@ -9,7 +9,7 @@ struct EserciziLibraryView: View {
 
     var body: some View {
         NavigationView {
-            VStack{
+            VStack {
                 List(categorie, id: \.self) { categoria in
                     NavigationLink(destination: EserciziCategoriaView(categoria: categoria, isSelectable: false, onAddEsercizio: { esercizio in
                         if allenamento.aggiungiEsercizioEsistente(esercizio: esercizio) {
@@ -32,7 +32,7 @@ struct EserciziLibraryView: View {
             }
             .alert(isPresented: $showAlert) {
                 Alert(
-                    title: Text("Esercizio aggiunto"),
+                    title: Text("Esercizio Aggiunto"),
                     message: Text("L'esercizio è stato aggiunto con successo."),
                     dismissButton: .default(Text("OK"))
                 )
