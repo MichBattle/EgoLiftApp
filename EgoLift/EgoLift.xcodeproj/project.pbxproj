@@ -26,6 +26,7 @@
 		86CE5FB82C3D6F61000229F2 /* EserciziListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86CE5FB72C3D6F61000229F2 /* EserciziListView.swift */; };
 		86CE5FBA2C3D7AAA000229F2 /* EsercizioNoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86CE5FB92C3D7AAA000229F2 /* EsercizioNoteView.swift */; };
 		86CE5FBC2C3D7BFB000229F2 /* EserciziLibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86CE5FBB2C3D7BFB000229F2 /* EserciziLibraryView.swift */; };
+		86CE5FBE2C3D8E99000229F2 /* EserciziCategoriaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86CE5FBD2C3D8E99000229F2 /* EserciziCategoriaView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +49,7 @@
 		86CE5FB72C3D6F61000229F2 /* EserciziListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EserciziListView.swift; sourceTree = "<group>"; };
 		86CE5FB92C3D7AAA000229F2 /* EsercizioNoteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EsercizioNoteView.swift; sourceTree = "<group>"; };
 		86CE5FBB2C3D7BFB000229F2 /* EserciziLibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EserciziLibraryView.swift; sourceTree = "<group>"; };
+		86CE5FBD2C3D8E99000229F2 /* EserciziCategoriaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EserciziCategoriaView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +101,7 @@
 				86CE5FB72C3D6F61000229F2 /* EserciziListView.swift */,
 				86CE5FB92C3D7AAA000229F2 /* EsercizioNoteView.swift */,
 				86CE5FBB2C3D7BFB000229F2 /* EserciziLibraryView.swift */,
+				86CE5FBD2C3D8E99000229F2 /* EserciziCategoriaView.swift */,
 			);
 			path = EgoLift;
 			sourceTree = "<group>";
@@ -195,6 +198,7 @@
 				8662B79D2C3B13C6007E80E1 /* NoteListView.swift in Sources */,
 				86CE5FB82C3D6F61000229F2 /* EserciziListView.swift in Sources */,
 				864AA64E2C3AF78100C6906F /* EgoLiftApp.swift in Sources */,
+				86CE5FBE2C3D8E99000229F2 /* EserciziCategoriaView.swift in Sources */,
 				864AA6622C3AF8BD00C6906F /* AllenamentoDetailView.swift in Sources */,
 				864AA6602C3AF8AC00C6906F /* Allenamento.swift in Sources */,
 				864AA6642C3AF8CC00C6906F /* EsercizioDetailView.swift in Sources */,

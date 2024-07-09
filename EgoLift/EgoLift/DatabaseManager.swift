@@ -15,6 +15,7 @@ class DatabaseManager {
     private let tempoRecupero = Expression<Int>("tempo_recupero")
     private let note = Expression<String>("note")
     private let numeroSet = Expression<String>("numero_set")
+    private let tipo = Expression<String>("tipo")
     
     private init() {
         do {
@@ -42,6 +43,7 @@ class DatabaseManager {
                 table.column(tempoRecupero)
                 table.column(note)
                 table.column(numeroSet)
+                table.column(tipo)
             })
         } catch {
             print("Error creating tables: \(error)")
@@ -88,8 +90,8 @@ class DatabaseManager {
     }
     
     // Funzioni per gestire gli esercizi
-    func addEsercizio(nome: String, descrizione: String, tempoRecupero: Int, note: String, numeroSet: String, allenamentoID: Int64) {
-        let insert = eserciziTable.insert(self.nome <- nome, self.descrizione <- descrizione, self.tempoRecupero <- tempoRecupero, self.note <- note, self.numeroSet <- numeroSet, self.allenamentoID <- allenamentoID)
+    func addEsercizio(nome: String, descrizione: String, tempoRecupero: Int, note: String, numeroSet: String, tipo: String, allenamentoID: Int64) {
+        let insert = eserciziTable.insert(self.nome <- nome, self.descrizione <- descrizione, self.tempoRecupero <- tempoRecupero, self.note <- note, self.numeroSet <- numeroSet, self.tipo <- tipo, self.allenamentoID <- allenamentoID)
         do {
             try db?.run(insert)
             print("Esercizio \(nome) aggiunto con successo")
@@ -108,7 +110,8 @@ class DatabaseManager {
                 let tempoRecupero = esercizio[self.tempoRecupero]
                 let note = esercizio[self.note]
                 let numeroSet = esercizio[self.numeroSet]
-                let esercizioObject = Esercizio(nome: nome, descrizione: descrizione, tempoRecupero: tempoRecupero, numeroSet: numeroSet)
+                let tipo = esercizio[self.tipo]
+                let esercizioObject = Esercizio(nome: nome, descrizione: descrizione, tempoRecupero: tempoRecupero, numeroSet: numeroSet, tipo: tipo)
                 esercizioObject.note = note.split(separator: ";").map { Note(content: String($0)) }
                 esercizi.append(esercizioObject)
             }
@@ -127,7 +130,8 @@ class DatabaseManager {
                 let tempoRecupero = esercizio[self.tempoRecupero]
                 let note = esercizio[self.note]
                 let numeroSet = esercizio[self.numeroSet]
-                let esercizioObject = Esercizio(nome: nome, descrizione: descrizione, tempoRecupero: tempoRecupero, numeroSet: numeroSet)
+                let tipo = esercizio[self.tipo]
+                let esercizioObject = Esercizio(nome: nome, descrizione: descrizione, tempoRecupero: tempoRecupero, numeroSet: numeroSet, tipo: tipo)
                 esercizioObject.note = note.split(separator: ";").map { Note(content: String($0)) }
                 esercizi.append(esercizioObject)
             }

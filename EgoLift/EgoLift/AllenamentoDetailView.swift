@@ -7,9 +7,11 @@ struct AllenamentoDetailView: View {
     @State private var nuovaDescrizione: String = ""
     @State private var tempoRecupero: String = ""
     @State private var numeroSet: String = ""
+    @State private var tipoEsercizioSelezionato = "Petto"
+    let tipiEsercizio = ["Petto", "Schiena", "Spalle", "Bicipiti", "Tricipiti", "Gambe", "Addome", "Cardio", "Altro"]
     @State private var isAddingEsercizio: Bool = false
     @State private var isAddingFromLibrary: Bool = false
-
+    
     var body: some View {
         VStack {
             List {
@@ -25,7 +27,7 @@ struct AllenamentoDetailView: View {
                     }
                 }
             }
-
+            
             Spacer()
         }
         .navigationBarTitle(allenamento.nome)
@@ -35,7 +37,7 @@ struct AllenamentoDetailView: View {
             }) {
                 Text("Crea Nuovo Esercizio")
             }
-
+            
             Button(action: {
                 isAddingFromLibrary.toggle()
             }) {
@@ -51,7 +53,7 @@ struct AllenamentoDetailView: View {
                 Text("Nuovo Esercizio")
                     .font(.headline)
                     .padding()
-
+                
                 VStack(alignment: .leading) {
                     Text("Nome Esercizio")
                         .foregroundColor(.gray)
@@ -63,7 +65,7 @@ struct AllenamentoDetailView: View {
                         .background(RoundedRectangle(cornerRadius: 8).stroke(Color.gray, lineWidth: 1))
                 }
                 .frame(maxWidth: .infinity)
-
+                
                 VStack(alignment: .leading) {
                     Text("Descrizione Esercizio")
                         .foregroundColor(.gray)
@@ -75,7 +77,7 @@ struct AllenamentoDetailView: View {
                         .background(RoundedRectangle(cornerRadius: 8).stroke(Color.gray, lineWidth: 1))
                 }
                 .frame(maxWidth: .infinity)
-
+                
                 VStack(alignment: .leading) {
                     Text("Tempo di Recupero (secondi)")
                         .foregroundColor(.gray)
@@ -94,7 +96,7 @@ struct AllenamentoDetailView: View {
                         }
                 }
                 .frame(maxWidth: .infinity)
-
+                
                 VStack(alignment: .leading) {
                     Text("Numero Set")
                         .foregroundColor(.gray)
@@ -106,21 +108,38 @@ struct AllenamentoDetailView: View {
                         .background(RoundedRectangle(cornerRadius: 8).stroke(Color.gray, lineWidth: 1))
                 }
                 .frame(maxWidth: .infinity)
-
+                
+                VStack(alignment: .leading) {
+                    Text("Tipo di Esercizio")
+                        .foregroundColor(.gray)
+                        .padding(.horizontal, 8)
+                        .padding(.top, 12)
+                    Picker(selection: $tipoEsercizioSelezionato, label: Text("Tipo di Esercizio")) {
+                        ForEach(tipiEsercizio, id: \.self) { tipo in
+                            Text(tipo).tag(tipo)
+                        }
+                    }
+                    .pickerStyle(MenuPickerStyle())
+                    .padding(4)
+                    .background(RoundedRectangle(cornerRadius: 8).stroke(Color.gray, lineWidth: 1))
+                }
+                .frame(maxWidth: .infinity)
+                
                 Button(action: {
                     if let recupero = Int(tempoRecupero) {
-                        allenamento.aggiungiEsercizio(nome: nuovoEsercizioNome, descrizione: nuovaDescrizione, tempoRecupero: recupero, numeroSet: numeroSet)
+                        allenamento.aggiungiEsercizio(nome: nuovoEsercizioNome, descrizione: nuovaDescrizione, tempoRecupero: recupero, numeroSet: numeroSet, tipo: tipoEsercizioSelezionato)
                         nuovoEsercizioNome = ""
                         nuovaDescrizione = ""
                         tempoRecupero = ""
                         numeroSet = ""
+                        tipoEsercizioSelezionato = "Petto"
                         isAddingEsercizio = false
                     }
                 }) {
                     Text("Aggiungi Esercizio")
                 }
                 .padding()
-
+                
                 Button(action: {
                     isAddingEsercizio = false
                 }) {

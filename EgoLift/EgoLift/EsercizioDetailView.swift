@@ -76,7 +76,7 @@ struct EsercizioDetailView: View {
             }
         }
         .padding()
-        .navigationBarTitle(esercizio.nome, displayMode: .inline)
+        .navigationBarTitle(esercizio.nome)
         .onAppear {
             timerManager.loadTimerState()
         }

@@ -6,13 +6,15 @@ class Esercizio: Identifiable, ObservableObject, Equatable {
     @Published var descrizione: String
     @Published var tempoRecupero: Int
     @Published var numeroSet: String
+    @Published var tipo: String
     @Published var note: [Note]
 
-    init(nome: String, descrizione: String, tempoRecupero: Int, numeroSet: String) {
+    init(nome: String, descrizione: String, tempoRecupero: Int, numeroSet: String, tipo: String) {
         self.nome = nome
         self.descrizione = descrizione
         self.tempoRecupero = tempoRecupero
         self.numeroSet = numeroSet
+        self.tipo = tipo
         self.note = []
     }
 

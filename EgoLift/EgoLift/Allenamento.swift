@@ -11,11 +11,11 @@ class Allenamento: Identifiable, ObservableObject, Equatable {
         self.esercizi = esercizi
     }
 
-    func aggiungiEsercizio(nome: String, descrizione: String, tempoRecupero: Int, numeroSet: String) {
+    func aggiungiEsercizio(nome: String, descrizione: String, tempoRecupero: Int, numeroSet: String, tipo: String) {
         if !esercizi.contains(where: { $0.nome == nome }) {
-            let nuovoEsercizio = Esercizio(nome: nome, descrizione: descrizione, tempoRecupero: tempoRecupero, numeroSet: numeroSet)
+            let nuovoEsercizio = Esercizio(nome: nome, descrizione: descrizione, tempoRecupero: tempoRecupero, numeroSet: numeroSet, tipo: tipo)
             esercizi.append(nuovoEsercizio)
-            DatabaseManager.shared.addEsercizio(nome: nome, descrizione: descrizione, tempoRecupero: tempoRecupero, note: "", numeroSet: numeroSet, allenamentoID: self.id) // Salva l'esercizio nel database
+            DatabaseManager.shared.addEsercizio(nome: nome, descrizione: descrizione, tempoRecupero: tempoRecupero, note: "", numeroSet: numeroSet, tipo: tipo, allenamentoID: self.id) // Salva l'esercizio nel database
         }
     }
 
