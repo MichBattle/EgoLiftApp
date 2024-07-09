@@ -91,12 +91,14 @@ class DatabaseManager {
     
     // Funzioni per gestire gli esercizi
     func addEsercizio(nome: String, descrizione: String, tempoRecupero: Int, note: String, numeroSet: String, tipo: String, allenamentoID: Int64) {
-        let insert = eserciziTable.insert(self.nome <- nome, self.descrizione <- descrizione, self.tempoRecupero <- tempoRecupero, self.note <- note, self.numeroSet <- numeroSet, self.tipo <- tipo, self.allenamentoID <- allenamentoID)
-        do {
-            try db?.run(insert)
-            print("Esercizio \(nome) aggiunto con successo")
-        } catch {
-            print("Error inserting esercizio: \(error)")
+        if !esercizioEsisteGlobalmente(nome: nome, descrizione: descrizione) {
+            let insert = eserciziTable.insert(self.nome <- nome, self.descrizione <- descrizione, self.tempoRecupero <- tempoRecupero, self.note <- note, self.numeroSet <- numeroSet, self.tipo <- tipo, self.allenamentoID <- allenamentoID)
+            do {
+                try db?.run(insert)
+                print("Esercizio \(nome) aggiunto con successo")
+            } catch {
+                print("Error inserting esercizio: \(error)")
+            }
         }
     }
     
@@ -141,8 +143,8 @@ class DatabaseManager {
         return esercizi
     }
 
-    func deleteEsercizio(nome: String) {
-        let query = eserciziTable.filter(self.nome == nome)
+    func deleteEsercizio(nome: String, descrizione: String) {
+        let query = eserciziTable.filter(self.nome == nome && self.descrizione == descrizione)
         do {
             try db?.run(query.delete())
             print("Esercizio \(nome) eliminato con successo")
@@ -151,13 +153,76 @@ class DatabaseManager {
         }
     }
 
-    func updateEsercizio(nome: String, note: String) {
-        let query = eserciziTable.filter(self.nome == nome)
+    func updateEsercizio(nome: String, descrizione: String, note: String) {
+        let query = eserciziTable.filter(self.nome == nome && self.descrizione == descrizione)
         do {
             try db?.run(query.update(self.note <- note))
             print("Esercizio \(nome) aggiornato con successo")
         } catch {
             print("Error updating esercizio: \(error)")
         }
+    }
+
+    func esercizioEsisteGlobalmente(nome: String, descrizione: String) -> Bool {
+        let query = eserciziTable.filter(self.nome == nome && self.descrizione == descrizione)
+        do {
+            let count = try db?.scalar(query.count) ?? 0
+            return count > 0
+        } catch {
+            print("Error checking if esercizio exists: \(error)")
+            return false
+        }
+    }
+    
+    func esercizioEsistePerAllenamento(nome: String, descrizione: String, allenamentoID: Int64) -> Bool {
+        let query = eserciziTable.filter(self.nome == nome && self.descrizione == descrizione && self.allenamentoID == allenamentoID)
+        do {
+            let count = try db?.scalar(query.count) ?? 0
+            return count > 0
+        } catch {
+            print("Error checking if esercizio exists for allenamento: \(error)")
+            return false
+        }
+    }
+
+    // Funzione per aggiungere un esercizio esistente
+    func addEsercizioEsistente(esercizio: Esercizio, to allenamentoID: Int64) -> Bool {
+        let query = eserciziTable.filter(self.nome == esercizio.nome && self.descrizione == esercizio.descrizione && self.allenamentoID == allenamentoID)
+        do {
+            if try db?.scalar(query.count) == 0 {
+                let insert = eserciziTable.insert(self.nome <- esercizio.nome, self.descrizione <- esercizio.descrizione, self.tempoRecupero <- esercizio.tempoRecupero, self.note <- esercizio.note.map { $0.content }.joined(separator: ";"), self.numeroSet <- esercizio.numeroSet, self.tipo <- esercizio.tipo, self.allenamentoID <- allenamentoID)
+                try db?.run(insert)
+                print("Esercizio \(esercizio.nome) aggiunto con successo all'allenamento \(allenamentoID)")
+                return true
+            } else {
+                print("L'esercizio \(esercizio.nome) esiste già per l'allenamento \(allenamentoID)")
+                return false
+            }
+        } catch {
+            print("Error inserting existing esercizio: \(error)")
+            return false
+        }
+    }
+
+    
+    // Funzione per trovare un esercizio globale
+    func trovaEsercizioGlobale(nome: String, descrizione: String) -> Esercizio? {
+        let query = eserciziTable.filter(self.nome == nome && self.descrizione == descrizione)
+        do {
+            if let esercizio = try db?.pluck(query) {
+                let nome = esercizio[self.nome]
+                let descrizione = esercizio[self.descrizione]
+                let tempoRecupero = esercizio[self.tempoRecupero]
+                let note = esercizio[self.note]
+                let numeroSet = esercizio[self.numeroSet]
+                let tipo = esercizio[self.tipo]
+                let esercizioObject = Esercizio(nome: nome, descrizione: descrizione, tempoRecupero: tempoRecupero, numeroSet: numeroSet, tipo: tipo)
+                esercizioObject.note = note.split(separator: ";").map { Note(content: String($0)) }
+                return esercizioObject
+            }
+        } catch {
+            print("Error finding global esercizio: \(error)")
+        }
+        return nil
     }
 }

@@ -4,6 +4,8 @@ struct EserciziCategoriaView: View {
     var categoria: String
     @State private var esercizi: [Esercizio] = []
     @State private var searchText: String = ""
+    var isSelectable: Bool = true // Default is selectable
+    var onAddEsercizio: ((Esercizio) -> Bool)? // Callback returns success
     
     var body: some View {
         VStack {
@@ -13,15 +15,42 @@ struct EserciziCategoriaView: View {
                 .cornerRadius(8)
                 .padding(.horizontal, 10)
 
-            List(filteredEsercizi, id: \.id) { esercizio in
-                VStack(alignment: .leading) {
-                    Text(esercizio.nome)
-                        .font(.headline)
-                    Text("Numero Set: \(esercizio.numeroSet)")
-                        .font(.subheadline)
-                    Text("Tempo di recupero: \(esercizio.tempoRecupero) secondi")
-                        .font(.subheadline)
+            List {
+                ForEach(filteredEsercizi, id: \.id) { esercizio in
+                    if isSelectable {
+                        NavigationLink(destination: EsercizioNoteDetailView(esercizio: esercizio)) {
+                            VStack(alignment: .leading) {
+                                Text(esercizio.nome)
+                                    .font(.headline)
+                                Text("Numero Set: \(esercizio.numeroSet)")
+                                    .font(.subheadline)
+                                Text("Tempo di recupero: \(esercizio.tempoRecupero) secondi")
+                                    .font(.subheadline)
+                            }
+                        }
+                    } else {
+                        HStack {
+                            VStack(alignment: .leading) {
+                                Text(esercizio.nome)
+                                    .font(.headline)
+                                Text("Numero Set: \(esercizio.numeroSet)")
+                                    .font(.subheadline)
+                                Text("Tempo di recupero: \(esercizio.tempoRecupero) secondi")
+                                    .font(.subheadline)
+                            }
+                            Spacer()
+                            Button(action: {
+                                if let onAddEsercizio = onAddEsercizio {
+                                    _ = onAddEsercizio(esercizio)
+                                }
+                            }) {
+                                Text("Aggiungi")
+                                    .foregroundColor(.blue)
+                            }
+                        }
+                    }
                 }
+                .onDelete(perform: isSelectable ? eliminaEsercizi : nil)
             }
         }
         .navigationBarTitle(categoria)
@@ -40,5 +69,13 @@ struct EserciziCategoriaView: View {
 
     private func loadEsercizi() {
         esercizi = DatabaseManager.shared.fetchAllEsercizi()
+    }
+
+    private func eliminaEsercizi(at offsets: IndexSet) {
+        offsets.forEach { index in
+            let esercizio = filteredEsercizi[index]
+            DatabaseManager.shared.deleteEsercizio(nome: esercizio.nome, descrizione: esercizio.descrizione)
+        }
+        loadEsercizi()
     }
 }

@@ -27,6 +27,7 @@
 		86CE5FBA2C3D7AAA000229F2 /* EsercizioNoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86CE5FB92C3D7AAA000229F2 /* EsercizioNoteView.swift */; };
 		86CE5FBC2C3D7BFB000229F2 /* EserciziLibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86CE5FBB2C3D7BFB000229F2 /* EserciziLibraryView.swift */; };
 		86CE5FBE2C3D8E99000229F2 /* EserciziCategoriaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86CE5FBD2C3D8E99000229F2 /* EserciziCategoriaView.swift */; };
+		86CE5FC02C3DADBC000229F2 /* EsercizioNoteDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86CE5FBF2C3DADBC000229F2 /* EsercizioNoteDetailView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -50,6 +51,7 @@
 		86CE5FB92C3D7AAA000229F2 /* EsercizioNoteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EsercizioNoteView.swift; sourceTree = "<group>"; };
 		86CE5FBB2C3D7BFB000229F2 /* EserciziLibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EserciziLibraryView.swift; sourceTree = "<group>"; };
 		86CE5FBD2C3D8E99000229F2 /* EserciziCategoriaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EserciziCategoriaView.swift; sourceTree = "<group>"; };
+		86CE5FBF2C3DADBC000229F2 /* EsercizioNoteDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EsercizioNoteDetailView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,6 +104,7 @@
 				86CE5FB92C3D7AAA000229F2 /* EsercizioNoteView.swift */,
 				86CE5FBB2C3D7BFB000229F2 /* EserciziLibraryView.swift */,
 				86CE5FBD2C3D8E99000229F2 /* EserciziCategoriaView.swift */,
+				86CE5FBF2C3DADBC000229F2 /* EsercizioNoteDetailView.swift */,
 			);
 			path = EgoLift;
 			sourceTree = "<group>";
@@ -207,6 +210,7 @@
 				864AA65C2C3AF88800C6906F /* Note.swift in Sources */,
 				8662B79B2C3B083A007E80E1 /* EsercizioEditView.swift in Sources */,
 				864AA65E2C3AF89E00C6906F /* Esercizio.swift in Sources */,
+				86CE5FC02C3DADBC000229F2 /* EsercizioNoteDetailView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

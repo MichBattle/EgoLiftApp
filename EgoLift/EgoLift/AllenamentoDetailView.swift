@@ -11,6 +11,7 @@ struct AllenamentoDetailView: View {
     let tipiEsercizio = ["Petto", "Schiena", "Spalle", "Bicipiti", "Tricipiti", "Gambe", "Addome", "Cardio", "Altro"]
     @State private var isAddingEsercizio: Bool = false
     @State private var isAddingFromLibrary: Bool = false
+    @State private var showErrorAlert = false
     
     var body: some View {
         VStack {
@@ -23,7 +24,7 @@ struct AllenamentoDetailView: View {
                 .onDelete { indices in
                     indices.forEach { index in
                         let esercizio = allenamento.esercizi[index]
-                        allenamento.eliminaEsercizio(esercizio: esercizio)
+                        allenamento.rimuoviEsercizio(esercizio: esercizio)
                     }
                 }
             }
@@ -127,13 +128,16 @@ struct AllenamentoDetailView: View {
                 
                 Button(action: {
                     if let recupero = Int(tempoRecupero) {
-                        allenamento.aggiungiEsercizio(nome: nuovoEsercizioNome, descrizione: nuovaDescrizione, tempoRecupero: recupero, numeroSet: numeroSet, tipo: tipoEsercizioSelezionato)
-                        nuovoEsercizioNome = ""
-                        nuovaDescrizione = ""
-                        tempoRecupero = ""
-                        numeroSet = ""
-                        tipoEsercizioSelezionato = "Petto"
-                        isAddingEsercizio = false
+                        if !allenamento.aggiungiEsercizio(nome: nuovoEsercizioNome, descrizione: nuovaDescrizione, tempoRecupero: recupero, numeroSet: numeroSet, tipo: tipoEsercizioSelezionato) {
+                            showErrorAlert = true
+                        } else {
+                            nuovoEsercizioNome = ""
+                            nuovaDescrizione = ""
+                            tempoRecupero = ""
+                            numeroSet = ""
+                            tipoEsercizioSelezionato = "Petto"
+                            isAddingEsercizio = false
+                        }
                     }
                 }) {
                     Text("Aggiungi Esercizio")
@@ -148,6 +152,13 @@ struct AllenamentoDetailView: View {
                 .padding()
             }
             .padding()
+            .alert(isPresented: $showErrorAlert) {
+                Alert(
+                    title: Text("Errore"),
+                    message: Text("Esercizio con lo stesso nome e descrizione esiste già."),
+                    dismissButton: .default(Text("OK"))
+                )
+            }
         }
         .sheet(isPresented: $isAddingFromLibrary) {
             EserciziLibraryView(allenamento: allenamento)

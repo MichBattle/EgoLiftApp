@@ -1,4 +1,5 @@
 import Foundation
+import SQLite
 
 class Esercizio: Identifiable, ObservableObject, Equatable {
     var id = UUID()
@@ -26,7 +27,7 @@ class Esercizio: Identifiable, ObservableObject, Equatable {
 
     private func salvaNoteNelDatabase() {
         let noteContent = note.map { $0.content }.joined(separator: ";")
-        DatabaseManager.shared.updateEsercizio(nome: nome, note: noteContent)
+        DatabaseManager.shared.updateEsercizio(nome: nome, descrizione: descrizione, note: noteContent)
     }
 
     static func == (lhs: Esercizio, rhs: Esercizio) -> Bool {

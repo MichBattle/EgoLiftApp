@@ -11,24 +11,31 @@ class Allenamento: Identifiable, ObservableObject, Equatable {
         self.esercizi = esercizi
     }
 
-    func aggiungiEsercizio(nome: String, descrizione: String, tempoRecupero: Int, numeroSet: String, tipo: String) {
-        if !esercizi.contains(where: { $0.nome == nome }) {
+    func aggiungiEsercizio(nome: String, descrizione: String, tempoRecupero: Int, numeroSet: String, tipo: String) -> Bool {
+        if !DatabaseManager.shared.esercizioEsisteGlobalmente(nome: nome, descrizione: descrizione) {
             let nuovoEsercizio = Esercizio(nome: nome, descrizione: descrizione, tempoRecupero: tempoRecupero, numeroSet: numeroSet, tipo: tipo)
             esercizi.append(nuovoEsercizio)
             DatabaseManager.shared.addEsercizio(nome: nome, descrizione: descrizione, tempoRecupero: tempoRecupero, note: "", numeroSet: numeroSet, tipo: tipo, allenamentoID: self.id) // Salva l'esercizio nel database
+            return true
         }
+        return false
     }
 
-    func aggiungiEsercizioEsistente(esercizio: Esercizio) {
-        if !esercizi.contains(where: { $0.nome == esercizio.nome }) {
-            esercizi.append(esercizio)
+    func aggiungiEsercizioEsistente(esercizio: Esercizio) -> Bool {
+        if !esercizi.contains(where: { $0.nome == esercizio.nome && $0.descrizione == esercizio.descrizione }) {
+            if DatabaseManager.shared.addEsercizioEsistente(esercizio: esercizio, to: self.id) {
+                esercizi.append(esercizio)
+                return true
+            }
+            return false
         }
+        return false
     }
 
-    func eliminaEsercizio(esercizio: Esercizio) {
+
+    func rimuoviEsercizio(esercizio: Esercizio) {
         if let index = esercizi.firstIndex(of: esercizio) {
             esercizi.remove(at: index)
-            // Aggiungi la logica per eliminare dal database se necessario
         }
     }
 
