@@ -4,7 +4,7 @@ struct ContentView: View {
     @ObservedObject var palestra = Palestra()
     @State private var nuovoAllenamentoNome: String = ""
     @State private var isAddingAllenamento: Bool = false
-    
+
     var body: some View {
         NavigationView {
             VStack {
@@ -21,46 +21,58 @@ struct ContentView: View {
                         }
                     }
                 }
-                
+
                 Spacer()
-            }
-            .navigationBarTitle("Allenamenti")
-            .navigationBarItems(trailing: Button(action: {
-                isAddingAllenamento.toggle()
-            }) {
-                Text("+")
-                    .font(.largeTitle)
-                    .frame(width: 30, height: 30)
-            })
-            .sheet(isPresented: $isAddingAllenamento) {
-                VStack {
-                    Text("Nuovo Allenamento")
-                        .font(.headline)
-                        .padding()
-                    
-                    TextEditor(text: $nuovoAllenamentoNome)
-                        .padding()
-                        .frame(maxWidth: .infinity, minHeight: 50)
-                        .background(RoundedRectangle(cornerRadius: 8).stroke(Color.gray, lineWidth: 1))
-                    
+
+                HStack {
                     Button(action: {
-                        palestra.aggiungiAllenamento(nome: nuovoAllenamentoNome)
-                        nuovoAllenamentoNome = ""
-                        isAddingAllenamento = false
+                        isAddingAllenamento.toggle()
                     }) {
-                        Text("Crea Allenamento")
+                        Text("+")
+                            .font(.largeTitle)
+                            .frame(width: 30, height: 30)
                     }
-                    .padding()
-                    
-                    Button(action: {
-                        isAddingAllenamento = false
-                    }) {
-                        Text("Annulla")
+                    .sheet(isPresented: $isAddingAllenamento) {
+                        VStack {
+                            Text("Nuovo Allenamento")
+                                .font(.headline)
+                                .padding()
+
+                            TextEditor(text: $nuovoAllenamentoNome)
+                                .padding()
+                                .frame(maxWidth: .infinity, minHeight: 50)
+                                .background(RoundedRectangle(cornerRadius: 8).stroke(Color.gray, lineWidth: 1))
+
+                            Button(action: {
+                                palestra.aggiungiAllenamento(nome: nuovoAllenamentoNome)
+                                nuovoAllenamentoNome = ""
+                                isAddingAllenamento = false
+                            }) {
+                                Text("Crea Allenamento")
+                            }
+                            .padding()
+
+                            Button(action: {
+                                isAddingAllenamento = false
+                            }) {
+                                Text("Annulla")
+                            }
+                            .padding()
+                        }
+                        .padding()
                     }
-                    .padding()
+
+                    Spacer()
+
+                    NavigationLink(destination: EserciziListView()) {
+                        Text("E")
+                            .font(.largeTitle)
+                            .frame(width: 30, height: 30)
+                    }
                 }
                 .padding()
             }
+            .navigationBarTitle("Allenamenti")
         }
     }
 }

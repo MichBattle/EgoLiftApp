@@ -6,8 +6,10 @@ struct AllenamentoDetailView: View {
     @State private var nuovoEsercizioNome: String = ""
     @State private var nuovaDescrizione: String = ""
     @State private var tempoRecupero: String = ""
+    @State private var numeroSet: String = ""
     @State private var isAddingEsercizio: Bool = false
-    
+    @State private var isAddingFromLibrary: Bool = false
+
     var body: some View {
         VStack {
             List {
@@ -23,13 +25,23 @@ struct AllenamentoDetailView: View {
                     }
                 }
             }
-            
+
             Spacer()
         }
         .navigationBarTitle(allenamento.nome)
-        .navigationBarItems(trailing: Button(action: {
-            isAddingEsercizio.toggle()
-        }) {
+        .navigationBarItems(trailing: Menu {
+            Button(action: {
+                isAddingEsercizio.toggle()
+            }) {
+                Text("Crea Nuovo Esercizio")
+            }
+
+            Button(action: {
+                isAddingFromLibrary.toggle()
+            }) {
+                Text("Aggiungi da Libreria")
+            }
+        } label: {
             Text("+")
                 .font(.largeTitle)
                 .frame(width: 30, height: 30)
@@ -39,7 +51,7 @@ struct AllenamentoDetailView: View {
                 Text("Nuovo Esercizio")
                     .font(.headline)
                     .padding()
-                
+
                 VStack(alignment: .leading) {
                     Text("Nome Esercizio")
                         .foregroundColor(.gray)
@@ -51,7 +63,7 @@ struct AllenamentoDetailView: View {
                         .background(RoundedRectangle(cornerRadius: 8).stroke(Color.gray, lineWidth: 1))
                 }
                 .frame(maxWidth: .infinity)
-                
+
                 VStack(alignment: .leading) {
                     Text("Descrizione Esercizio")
                         .foregroundColor(.gray)
@@ -63,7 +75,7 @@ struct AllenamentoDetailView: View {
                         .background(RoundedRectangle(cornerRadius: 8).stroke(Color.gray, lineWidth: 1))
                 }
                 .frame(maxWidth: .infinity)
-                
+
                 VStack(alignment: .leading) {
                     Text("Tempo di Recupero (secondi)")
                         .foregroundColor(.gray)
@@ -82,20 +94,33 @@ struct AllenamentoDetailView: View {
                         }
                 }
                 .frame(maxWidth: .infinity)
-                
+
+                VStack(alignment: .leading) {
+                    Text("Numero Set")
+                        .foregroundColor(.gray)
+                        .padding(.horizontal, 8)
+                        .padding(.top, 12)
+                    TextEditor(text: $numeroSet)
+                        .padding(4)
+                        .frame(maxWidth: .infinity, minHeight: 50)
+                        .background(RoundedRectangle(cornerRadius: 8).stroke(Color.gray, lineWidth: 1))
+                }
+                .frame(maxWidth: .infinity)
+
                 Button(action: {
                     if let recupero = Int(tempoRecupero) {
-                        allenamento.aggiungiEsercizio(nome: nuovoEsercizioNome, descrizione: nuovaDescrizione, tempoRecupero: recupero)
+                        allenamento.aggiungiEsercizio(nome: nuovoEsercizioNome, descrizione: nuovaDescrizione, tempoRecupero: recupero, numeroSet: numeroSet)
                         nuovoEsercizioNome = ""
                         nuovaDescrizione = ""
                         tempoRecupero = ""
+                        numeroSet = ""
                         isAddingEsercizio = false
                     }
                 }) {
                     Text("Aggiungi Esercizio")
                 }
                 .padding()
-                
+
                 Button(action: {
                     isAddingEsercizio = false
                 }) {
@@ -104,6 +129,9 @@ struct AllenamentoDetailView: View {
                 .padding()
             }
             .padding()
+        }
+        .sheet(isPresented: $isAddingFromLibrary) {
+            EserciziLibraryView(allenamento: allenamento)
         }
     }
 }

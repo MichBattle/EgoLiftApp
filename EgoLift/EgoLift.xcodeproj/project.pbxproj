@@ -20,6 +20,12 @@
 		8662B79B2C3B083A007E80E1 /* EsercizioEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8662B79A2C3B083A007E80E1 /* EsercizioEditView.swift */; };
 		8662B79D2C3B13C6007E80E1 /* NoteListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8662B79C2C3B13C6007E80E1 /* NoteListView.swift */; };
 		86ADDA362C3BE756007D02C6 /* TimerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86ADDA352C3BE756007D02C6 /* TimerManager.swift */; };
+		86CE5FB22C3D6D06000229F2 /* SQLite in Frameworks */ = {isa = PBXBuildFile; productRef = 86CE5FB12C3D6D06000229F2 /* SQLite */; };
+		86CE5FB42C3D6D1A000229F2 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86CE5FB32C3D6D1A000229F2 /* DatabaseManager.swift */; };
+		86CE5FB62C3D6E71000229F2 /* Palestra.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86CE5FB52C3D6E71000229F2 /* Palestra.swift */; };
+		86CE5FB82C3D6F61000229F2 /* EserciziListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86CE5FB72C3D6F61000229F2 /* EserciziListView.swift */; };
+		86CE5FBA2C3D7AAA000229F2 /* EsercizioNoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86CE5FB92C3D7AAA000229F2 /* EsercizioNoteView.swift */; };
+		86CE5FBC2C3D7BFB000229F2 /* EserciziLibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86CE5FBB2C3D7BFB000229F2 /* EserciziLibraryView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +43,11 @@
 		8662B79A2C3B083A007E80E1 /* EsercizioEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EsercizioEditView.swift; sourceTree = "<group>"; };
 		8662B79C2C3B13C6007E80E1 /* NoteListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteListView.swift; sourceTree = "<group>"; };
 		86ADDA352C3BE756007D02C6 /* TimerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerManager.swift; sourceTree = "<group>"; };
+		86CE5FB32C3D6D1A000229F2 /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
+		86CE5FB52C3D6E71000229F2 /* Palestra.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Palestra.swift; sourceTree = "<group>"; };
+		86CE5FB72C3D6F61000229F2 /* EserciziListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EserciziListView.swift; sourceTree = "<group>"; };
+		86CE5FB92C3D7AAA000229F2 /* EsercizioNoteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EsercizioNoteView.swift; sourceTree = "<group>"; };
+		86CE5FBB2C3D7BFB000229F2 /* EserciziLibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EserciziLibraryView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -44,6 +55,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				86CE5FB22C3D6D06000229F2 /* SQLite in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -82,6 +94,11 @@
 				8662B79A2C3B083A007E80E1 /* EsercizioEditView.swift */,
 				8662B79C2C3B13C6007E80E1 /* NoteListView.swift */,
 				86ADDA352C3BE756007D02C6 /* TimerManager.swift */,
+				86CE5FB32C3D6D1A000229F2 /* DatabaseManager.swift */,
+				86CE5FB52C3D6E71000229F2 /* Palestra.swift */,
+				86CE5FB72C3D6F61000229F2 /* EserciziListView.swift */,
+				86CE5FB92C3D7AAA000229F2 /* EsercizioNoteView.swift */,
+				86CE5FBB2C3D7BFB000229F2 /* EserciziLibraryView.swift */,
 			);
 			path = EgoLift;
 			sourceTree = "<group>";
@@ -110,6 +127,9 @@
 			dependencies = (
 			);
 			name = EgoLift;
+			packageProductDependencies = (
+				86CE5FB12C3D6D06000229F2 /* SQLite */,
+			);
 			productName = EgoLift;
 			productReference = 864AA64A2C3AF78100C6906F /* EgoLift.app */;
 			productType = "com.apple.product-type.application";
@@ -138,6 +158,9 @@
 				Base,
 			);
 			mainGroup = 864AA6412C3AF78100C6906F;
+			packageReferences = (
+				86CE5FB02C3D6D06000229F2 /* XCRemoteSwiftPackageReference "SQLite" */,
+			);
 			productRefGroup = 864AA64B2C3AF78100C6906F /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -165,13 +188,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				864AA6662C3AFCFB00C6906F /* EsercizioTabView.swift in Sources */,
+				86CE5FBA2C3D7AAA000229F2 /* EsercizioNoteView.swift in Sources */,
+				86CE5FBC2C3D7BFB000229F2 /* EserciziLibraryView.swift in Sources */,
 				864AA6502C3AF78100C6906F /* ContentView.swift in Sources */,
 				86ADDA362C3BE756007D02C6 /* TimerManager.swift in Sources */,
 				8662B79D2C3B13C6007E80E1 /* NoteListView.swift in Sources */,
+				86CE5FB82C3D6F61000229F2 /* EserciziListView.swift in Sources */,
 				864AA64E2C3AF78100C6906F /* EgoLiftApp.swift in Sources */,
 				864AA6622C3AF8BD00C6906F /* AllenamentoDetailView.swift in Sources */,
 				864AA6602C3AF8AC00C6906F /* Allenamento.swift in Sources */,
 				864AA6642C3AF8CC00C6906F /* EsercizioDetailView.swift in Sources */,
+				86CE5FB42C3D6D1A000229F2 /* DatabaseManager.swift in Sources */,
+				86CE5FB62C3D6E71000229F2 /* Palestra.swift in Sources */,
 				864AA65C2C3AF88800C6906F /* Note.swift in Sources */,
 				8662B79B2C3B083A007E80E1 /* EsercizioEditView.swift in Sources */,
 				864AA65E2C3AF89E00C6906F /* Esercizio.swift in Sources */,
@@ -380,6 +408,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		86CE5FB02C3D6D06000229F2 /* XCRemoteSwiftPackageReference "SQLite" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/stephencelis/SQLite.swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.15.3;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		86CE5FB12C3D6D06000229F2 /* SQLite */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 86CE5FB02C3D6D06000229F2 /* XCRemoteSwiftPackageReference "SQLite" */;
+			productName = SQLite;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 864AA6422C3AF78100C6906F /* Project object */;
 }
