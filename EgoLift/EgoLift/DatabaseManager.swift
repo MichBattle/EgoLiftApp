@@ -114,7 +114,7 @@ class DatabaseManager {
                 let numeroSet = esercizio[self.numeroSet]
                 let tipo = esercizio[self.tipo]
                 let esercizioObject = Esercizio(nome: nome, descrizione: descrizione, tempoRecupero: tempoRecupero, numeroSet: numeroSet, tipo: tipo)
-                esercizioObject.note = note.split(separator: ";").map { Note(content: String($0)) }
+                esercizioObject.note = note.split(separator: ";").map { EsercizioNote(content: String($0)) }
                 esercizi.append(esercizioObject)
             }
         } catch {
@@ -134,13 +134,14 @@ class DatabaseManager {
                 let numeroSet = esercizio[self.numeroSet]
                 let tipo = esercizio[self.tipo]
                 let esercizioObject = Esercizio(nome: nome, descrizione: descrizione, tempoRecupero: tempoRecupero, numeroSet: numeroSet, tipo: tipo)
-                esercizioObject.note = note.split(separator: ";").map { Note(content: String($0)) }
+                esercizioObject.note = note.split(separator: ";").map { EsercizioNote(content: String($0)) }
                 esercizi.append(esercizioObject)
             }
         } catch {
             print("Error fetching esercizi: \(error)")
         }
-        return esercizi
+        let uniqueEsercizi = Array(Set(esercizi))
+        return uniqueEsercizi
     }
 
     func deleteEsercizio(nome: String, descrizione: String) {
@@ -205,7 +206,7 @@ class DatabaseManager {
                 let numeroSet = esercizio[self.numeroSet]
                 let tipo = esercizio[self.tipo]
                 let esercizioObject = Esercizio(nome: nome, descrizione: descrizione, tempoRecupero: tempoRecupero, numeroSet: numeroSet, tipo: tipo)
-                esercizioObject.note = note.split(separator: ";").map { Note(content: String($0)) }
+                esercizioObject.note = note.split(separator: ";").map { EsercizioNote(content: String($0)) }
                 return esercizioObject
             }
         } catch {

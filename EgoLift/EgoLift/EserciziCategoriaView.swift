@@ -68,7 +68,7 @@ struct EserciziCategoriaView: View {
     }
 
     private func loadEsercizi() {
-        esercizi = DatabaseManager.shared.fetchAllEsercizi()
+        esercizi = DatabaseManager.shared.fetchAllEsercizi().filter { $0.tipo == categoria }
     }
 
     private func eliminaEsercizi(at offsets: IndexSet) {
