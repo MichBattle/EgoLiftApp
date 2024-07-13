@@ -90,16 +90,19 @@ class DatabaseManager {
     }
     
     // Funzioni per gestire gli esercizi
-    func addEsercizio(nome: String, descrizione: String, tempoRecupero: Int, note: String, numeroSet: String, tipo: String, allenamentoID: Int64) {
+    func addEsercizio(nome: String, descrizione: String, tempoRecupero: Int, note: String, numeroSet: String, tipo: String, allenamentoID: Int64) -> Bool {
         if !esercizioEsisteGlobalmente(nome: nome, descrizione: descrizione) {
             let insert = eserciziTable.insert(self.nome <- nome, self.descrizione <- descrizione, self.tempoRecupero <- tempoRecupero, self.note <- note, self.numeroSet <- numeroSet, self.tipo <- tipo, self.allenamentoID <- allenamentoID)
             do {
                 try db?.run(insert)
                 print("Esercizio \(nome) aggiunto con successo")
+                return true
             } catch {
                 print("Error inserting esercizio: \(error)")
+                return false
             }
         }
+        return false
     }
     
     func fetchEsercizi(for allenamentoID: Int64) -> [Esercizio] {
