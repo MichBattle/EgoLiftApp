@@ -1,18 +1,20 @@
 import Foundation
 
+import Foundation
+
 class TimerManager: ObservableObject {
     static let shared = TimerManager()
     
     @Published var timerRunning = false
     @Published var secondsRemaining: Double = 0
-    @Published var currentEsercizioID: UUID? // Aggiunta questa proprietà
+    @Published var currentEsercizioID: Int64? // Modificato da UUID a Int64
     private var timer: Timer?
     
     private init() {
         loadTimerState()
     }
     
-    func startTimer(duration: Double, for esercizioID: UUID) {
+    func startTimer(duration: Double, for esercizioID: Int64) {
         if !timerRunning {
             secondsRemaining = duration
             timerRunning = true
@@ -50,7 +52,7 @@ class TimerManager: ObservableObject {
         UserDefaults.standard.set(secondsRemaining, forKey: "secondsRemaining")
         UserDefaults.standard.set(timerRunning, forKey: "timerRunning")
         if let currentEsercizioID = currentEsercizioID {
-            UserDefaults.standard.set(currentEsercizioID.uuidString, forKey: "currentEsercizioID")
+            UserDefaults.standard.set(currentEsercizioID, forKey: "currentEsercizioID")
         }
     }
     
@@ -64,8 +66,8 @@ class TimerManager: ObservableObject {
                 runTimer()
             }
         }
-        if let savedEsercizioID = UserDefaults.standard.string(forKey: "currentEsercizioID"), let uuid = UUID(uuidString: savedEsercizioID) {
-            currentEsercizioID = uuid
+        if let savedEsercizioID = UserDefaults.standard.value(forKey: "currentEsercizioID") as? Int64 {
+            currentEsercizioID = savedEsercizioID
         }
     }
     

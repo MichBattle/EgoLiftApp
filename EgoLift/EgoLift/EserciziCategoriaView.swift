@@ -41,7 +41,11 @@ struct EserciziCategoriaView: View {
                             Spacer()
                             Button(action: {
                                 if let onAddEsercizio = onAddEsercizio {
-                                    _ = onAddEsercizio(esercizio)
+                                    if onAddEsercizio(esercizio) {
+                                        // Handle successful addition
+                                    } else {
+                                        // Handle failed addition
+                                    }
                                 }
                             }) {
                                 Text("Aggiungi")

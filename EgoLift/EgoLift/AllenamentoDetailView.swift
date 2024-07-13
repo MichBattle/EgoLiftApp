@@ -3,6 +3,13 @@ import SwiftUI
 struct AllenamentoDetailView: View {
     @ObservedObject var allenamento: Allenamento
     @ObservedObject var palestra: Palestra
+    @State private var nuovoEsercizioNome: String = ""
+    @State private var nuovaDescrizione: String = ""
+    @State private var tempoRecupero: String = ""
+    @State private var numeroSet: String = ""
+    @State private var tipoEsercizioSelezionato = "Petto"
+    let tipiEsercizio = ["Petto", "Schiena", "Spalle", "Bicipiti", "Tricipiti", "Gambe", "Addome", "Cardio", "Altro"]
+    @State private var isAddingEsercizio: Bool = false
     @State private var isAddingFromLibrary: Bool = false
     @State private var showErrorAlert = false
     
@@ -34,6 +41,13 @@ struct AllenamentoDetailView: View {
         })
         .sheet(isPresented: $isAddingFromLibrary) {
             EserciziLibraryView(allenamento: allenamento)
+        }
+        .alert(isPresented: $showErrorAlert) {
+            Alert(
+                title: Text("Errore"),
+                message: Text("Esercizio con lo stesso nome e descrizione esiste già."),
+                dismissButton: .default(Text("OK"))
+            )
         }
     }
 }

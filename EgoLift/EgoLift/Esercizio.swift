@@ -10,15 +10,16 @@ class EsercizioNote: Identifiable {
 }
 
 class Esercizio: Identifiable, ObservableObject, Equatable, Hashable {
-    var id: UUID
+    var id: Int64
     @Published var nome: String
     @Published var descrizione: String
     @Published var tempoRecupero: Int
     @Published var numeroSet: String
     @Published var tipo: String
     @Published var note: [EsercizioNote]
+    @Published var isOriginal: Bool
 
-    init(id: UUID = UUID(), nome: String, descrizione: String, tempoRecupero: Int, numeroSet: String, tipo: String) {
+    init(id: Int64 = Int64.random(in: Int64.min...Int64.max), nome: String, descrizione: String, tempoRecupero: Int, numeroSet: String, tipo: String, isOriginal: Bool) {
         self.id = id
         self.nome = nome
         self.descrizione = descrizione
@@ -26,25 +27,24 @@ class Esercizio: Identifiable, ObservableObject, Equatable, Hashable {
         self.numeroSet = numeroSet
         self.tipo = tipo
         self.note = []
+        self.isOriginal = isOriginal
     }
 
     func aggiungiNota(content: String) {
         let nuovaNota = EsercizioNote(content: content)
         note.append(nuovaNota)
-        salvaNoteNelDatabase()
+        salvaNoteNelDatabase(content: content)
     }
 
-    private func salvaNoteNelDatabase() {
-        let noteContent = note.map { $0.content }.joined(separator: ";")
-        DatabaseManager.shared.updateEsercizio(nome: nome, descrizione: descrizione, note: noteContent)
+    private func salvaNoteNelDatabase(content: String) {
+        DatabaseManager.shared.updateEsercizio(nome: nome, nuovaNota: content)
     }
 
     static func == (lhs: Esercizio, rhs: Esercizio) -> Bool {
-        return lhs.nome == rhs.nome && lhs.descrizione == rhs.descrizione
+        return lhs.id == rhs.id // Confrontiamo gli esercizi usando l'ID
     }
     
     func hash(into hasher: inout Hasher) {
-        hasher.combine(nome)
-        hasher.combine(descrizione)
+        hasher.combine(id)
     }
 }

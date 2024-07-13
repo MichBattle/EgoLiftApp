@@ -69,16 +69,18 @@ struct ContentView: View {
                             .font(.largeTitle)
                             .frame(width: 30, height: 30)
                     }
+
+                    Spacer()
+
+                    NavigationLink(destination: TuttiEserciziView()) {
+                        Text("Tutti")
+                            .font(.largeTitle)
+                            .frame(width: 60, height: 30)
+                    }
                 }
                 .padding()
             }
             .navigationBarTitle("Allenamenti")
         }
-    }
-}
-
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
     }
 }
