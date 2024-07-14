@@ -19,8 +19,8 @@ struct EserciziListView: View {
             List(categorie, id: \.self) { categoria in
                 NavigationLink(destination: EserciziCategoriaView(categoria: categoria)) {
                     Text(categoria)
-                        .font(.headline)
-                        .padding()
+                        .font(.title2) 
+                        .padding(10)
                 }
             }.listStyle(PlainListStyle())
         }

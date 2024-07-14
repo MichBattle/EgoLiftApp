@@ -19,6 +19,8 @@ struct AllenamentoDetailView: View {
                 ForEach(allenamento.esercizi.indices, id: \.self) { index in
                     NavigationLink(destination: EsercizioTabView(esercizi: allenamento.esercizi, currentIndex: index)) {
                         Text(allenamento.esercizi[index].nome)
+                            .font(.title3)
+                            .padding(10)
                     }
                 }
                 .onDelete { indices in

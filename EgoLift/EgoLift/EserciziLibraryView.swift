@@ -21,8 +21,8 @@ struct EserciziLibraryView: View {
                         }
                     })) {
                         Text(categoria)
-                            .font(.headline)
-                            .padding()
+                            .font(.title2)
+                            .padding(10)
                     }
                 }
             }
