@@ -4,6 +4,7 @@ struct EsercizioNoteDetailView: View {
     @ObservedObject var esercizio: Esercizio
     @State private var isEditing: Bool = false
     @State private var isViewingNotes: Bool = false
+    @ObservedObject var sharedState: SharedState
 
     var body: some View {
         VStack(spacing: 16) {
@@ -41,7 +42,7 @@ struct EsercizioNoteDetailView: View {
                 }
                 .padding()
                 .background(
-                    NavigationLink(destination: NoteListView(esercizio: esercizio), isActive: $isViewingNotes) {
+                    NavigationLink(destination: NoteListView(esercizio: esercizio, sharedState: sharedState), isActive: $isViewingNotes) {
                         EmptyView()
                     }.hidden()
                 )

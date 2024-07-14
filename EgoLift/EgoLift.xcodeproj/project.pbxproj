@@ -18,6 +18,7 @@
 		864AA6642C3AF8CC00C6906F /* EsercizioDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864AA6632C3AF8CC00C6906F /* EsercizioDetailView.swift */; };
 		864AA6662C3AFCFB00C6906F /* EsercizioTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864AA6652C3AFCFB00C6906F /* EsercizioTabView.swift */; };
 		8651505A2C43D83C00BA1993 /* WaterIntakeWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865150592C43D83C00BA1993 /* WaterIntakeWidget.swift */; };
+		865D993B2C442018005497EB /* SharedState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865D993A2C442018005497EB /* SharedState.swift */; };
 		8662B79B2C3B083A007E80E1 /* EsercizioEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8662B79A2C3B083A007E80E1 /* EsercizioEditView.swift */; };
 		8662B79D2C3B13C6007E80E1 /* NoteListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8662B79C2C3B13C6007E80E1 /* NoteListView.swift */; };
 		86ADDA362C3BE756007D02C6 /* TimerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86ADDA352C3BE756007D02C6 /* TimerManager.swift */; };
@@ -45,6 +46,7 @@
 		864AA6632C3AF8CC00C6906F /* EsercizioDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EsercizioDetailView.swift; sourceTree = "<group>"; };
 		864AA6652C3AFCFB00C6906F /* EsercizioTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EsercizioTabView.swift; sourceTree = "<group>"; };
 		865150592C43D83C00BA1993 /* WaterIntakeWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaterIntakeWidget.swift; sourceTree = "<group>"; };
+		865D993A2C442018005497EB /* SharedState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedState.swift; sourceTree = "<group>"; };
 		8662B79A2C3B083A007E80E1 /* EsercizioEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EsercizioEditView.swift; sourceTree = "<group>"; };
 		8662B79C2C3B13C6007E80E1 /* NoteListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteListView.swift; sourceTree = "<group>"; };
 		86ADDA352C3BE756007D02C6 /* TimerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerManager.swift; sourceTree = "<group>"; };
@@ -111,6 +113,7 @@
 				86CE5FBF2C3DADBC000229F2 /* EsercizioNoteDetailView.swift */,
 				86D3869F2C4301DC008F63F9 /* TuttiEserciziView.swift */,
 				865150592C43D83C00BA1993 /* WaterIntakeWidget.swift */,
+				865D993A2C442018005497EB /* SharedState.swift */,
 			);
 			path = EgoLift;
 			sourceTree = "<group>";
@@ -199,6 +202,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				865D993B2C442018005497EB /* SharedState.swift in Sources */,
 				864AA6662C3AFCFB00C6906F /* EsercizioTabView.swift in Sources */,
 				86CE5FBA2C3D7AAA000229F2 /* EsercizioNoteView.swift in Sources */,
 				86CE5FBC2C3D7BFB000229F2 /* EserciziLibraryView.swift in Sources */,

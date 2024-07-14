@@ -12,12 +12,13 @@ struct AllenamentoDetailView: View {
     @State private var isAddingEsercizio: Bool = false
     @State private var isAddingFromLibrary: Bool = false
     @State private var showErrorAlert = false
+    @ObservedObject var sharedState: SharedState
     
     var body: some View {
         VStack {
             List {
                 ForEach(allenamento.esercizi.indices, id: \.self) { index in
-                    NavigationLink(destination: EsercizioTabView(esercizi: allenamento.esercizi, currentIndex: index)) {
+                    NavigationLink(destination: EsercizioTabView(esercizi: allenamento.esercizi, currentIndex: index, sharedState: sharedState)) {
                         Text(allenamento.esercizi[index].nome)
                             .font(.title3)
                             .padding(10)
@@ -33,23 +34,14 @@ struct AllenamentoDetailView: View {
             
             Spacer()
         }
+        .onAppear(){
+            sharedState.currentAllenamento = allenamento
+            sharedState.allenamentoDetailView = true
+        }
+        .onDisappear(){
+            sharedState.currentAllenamento = nil
+            sharedState.allenamentoDetailView = false
+        }
         .navigationBarTitle(allenamento.nome)
-        .navigationBarItems(trailing: Button(action: {
-            isAddingFromLibrary.toggle()
-        }) {
-            Text("+")
-                .font(.largeTitle)
-                .frame(width: 30, height: 30)
-        })
-        .sheet(isPresented: $isAddingFromLibrary) {
-            EserciziLibraryView(allenamento: allenamento)
-        }
-        .alert(isPresented: $showErrorAlert) {
-            Alert(
-                title: Text("Errore"),
-                message: Text("Esercizio con lo stesso nome e descrizione esiste già."),
-                dismissButton: .default(Text("OK"))
-            )
-        }
     }
 }

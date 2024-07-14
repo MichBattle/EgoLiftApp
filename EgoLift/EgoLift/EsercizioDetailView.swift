@@ -4,7 +4,8 @@ struct EsercizioDetailView: View {
     @ObservedObject var esercizio: Esercizio
     @ObservedObject var timerManager = TimerManager.shared
     @State private var isViewingNotes: Bool = false
-    
+    @ObservedObject var sharedState: SharedState
+
     var body: some View {
         VStack(spacing: 16) {
             Text(esercizio.descrizione)
@@ -47,25 +48,26 @@ struct EsercizioDetailView: View {
             }
             
             Spacer()
-            
-            HStack {
-                Spacer()
-                
-                Button(action: {
-                    isViewingNotes.toggle()
-                }) {
-                    Text("Note")
-                }
-                .padding()
-                .background(
-                    NavigationLink(destination: NoteListView(esercizio: esercizio), isActive: $isViewingNotes) {
-                        EmptyView()
-                    }.hidden()
-                )
-            }
+        }
+        .onAppear(){
+            sharedState.esercizioDetailView = true
+        }
+        .onDisappear(){
+            sharedState.esercizioDetailView = false
         }
         .padding()
         .navigationBarTitle(esercizio.nome)
+        .navigationBarItems(trailing: Button(action: {
+            isViewingNotes.toggle()
+        }) {
+            Text("Note")
+        }
+        .background(
+            NavigationLink(destination: NoteListView(esercizio: esercizio, sharedState: sharedState), isActive: $isViewingNotes) {
+                EmptyView()
+            }
+            .hidden()
+        ))
         .onAppear {
             timerManager.loadTimerState()
         }

@@ -6,6 +6,7 @@ struct EserciziLibraryView: View {
     @State private var showAlert = false
     @State private var showErrorAlert = false
     let categorie = ["Petto", "Schiena", "Spalle", "Bicipiti", "Tricipiti", "Gambe", "Addome", "Cardio", "Altro"]
+    @ObservedObject var sharedState: SharedState
 
     var body: some View {
         NavigationView {
@@ -19,7 +20,7 @@ struct EserciziLibraryView: View {
                             showErrorAlert = true
                             return false
                         }
-                    })) {
+                    }, sharedState: sharedState)) {
                         Text(categoria)
                             .font(.title2)
                             .padding(10)

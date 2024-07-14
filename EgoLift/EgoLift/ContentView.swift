@@ -4,7 +4,12 @@ struct ContentView: View {
     @ObservedObject var palestra = Palestra()
     @State private var nuovoAllenamentoNome: String = ""
     @State private var isAddingAllenamento: Bool = false
+    @State private var isAddingFromLibrary: Bool = false
+    @State private var isAddingNota: Bool = false
+    @State private var showErrorAlert: Bool = false
     @State private var selectedTab: Int = 0
+    @State private var nuovaNota: String = ""
+    @ObservedObject var sharedState = SharedState()
 
     var body: some View {
         NavigationView {
@@ -12,7 +17,7 @@ struct ContentView: View {
                 if selectedTab == 0 {
                     homeView
                 } else if selectedTab == 1 {
-                    EserciziListView()
+                    EserciziListView(sharedState: sharedState)
                 }
 
                 Spacer()
@@ -28,10 +33,10 @@ struct ContentView: View {
                 WaterIntakeWidget()
                 List {
                     ForEach(palestra.allenamenti, id: \.id) { allenamento in
-                        NavigationLink(destination: AllenamentoDetailView(allenamento: allenamento, palestra: palestra)) {
+                        NavigationLink(destination: AllenamentoDetailView(allenamento: allenamento, palestra: palestra, sharedState: sharedState)) {
                             Text(allenamento.nome)
-                                .font(.title2) // Increase the font size
-                                .fontWeight(.bold) // Make the text bold
+                                .font(.title2)
+                                .fontWeight(.bold)
                                 .padding(10)
                         }
                     }
@@ -65,7 +70,15 @@ struct ContentView: View {
             Spacer()
 
             Button(action: {
-                isAddingAllenamento.toggle()
+                if !sharedState.esercizioDetailView {
+                    if sharedState.allenamentoDetailView {
+                        isAddingFromLibrary.toggle()
+                    } else if sharedState.noteListView {
+                        isAddingNota.toggle()
+                    } else {
+                        isAddingAllenamento.toggle()
+                    }
+                }
             }) {
                 Image(systemName: "plus.circle.fill")
                     .resizable()
@@ -101,6 +114,50 @@ struct ContentView: View {
                     .padding()
                 }
                 .padding()
+            }
+            .sheet(isPresented: $isAddingFromLibrary) {
+                if let allenamento = sharedState.currentAllenamento {
+                    EserciziLibraryView(allenamento: allenamento, sharedState: sharedState)
+                } else {
+                    Text("Seleziona un allenamento prima di aggiungere esercizi dalla libreria.")
+                }
+            }
+            .sheet(isPresented: $isAddingNota) {
+                VStack {
+                    Text("Nuova Nota")
+                        .font(.headline)
+                        .padding()
+
+                    TextEditor(text: $nuovaNota)
+                        .padding()
+                        .frame(maxWidth: .infinity, minHeight: 150)
+                        .background(RoundedRectangle(cornerRadius: 8).stroke(Color.gray, lineWidth: 1))
+
+                    Button(action: {
+                        // Assuming there's a method to add a note in your data model
+                        sharedState.currentEsercizio?.aggiungiNota(content: nuovaNota)
+                        nuovaNota = ""
+                        isAddingNota = false
+                    }) {
+                        Text("Aggiungi Nota")
+                    }
+                    .padding()
+
+                    Button(action: {
+                        isAddingNota = false
+                    }) {
+                        Text("Annulla")
+                    }
+                    .padding()
+                }
+                .padding()
+            }
+            .alert(isPresented: $showErrorAlert) {
+                Alert(
+                    title: Text("Errore"),
+                    message: Text("Esercizio con lo stesso nome e descrizione esiste già."),
+                    dismissButton: .default(Text("OK"))
+                )
             }
 
             Spacer()

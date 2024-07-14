@@ -10,6 +10,7 @@ struct EserciziListView: View {
     @State private var numeroSet: String = ""
     @State private var tipoEsercizioSelezionato = "Petto"
     @State private var showErrorAlert = false
+    @ObservedObject var sharedState: SharedState
 
     let categorie = ["Petto", "Schiena", "Spalle", "Bicipiti", "Tricipiti", "Gambe", "Addome", "Cardio", "Altro"]
     let tipiEsercizio = ["Petto", "Schiena", "Spalle", "Bicipiti", "Tricipiti", "Gambe", "Addome", "Cardio", "Altro"]
@@ -17,7 +18,7 @@ struct EserciziListView: View {
     var body: some View {
         VStack {
             List(categorie, id: \.self) { categoria in
-                NavigationLink(destination: EserciziCategoriaView(categoria: categoria)) {
+                NavigationLink(destination: EserciziCategoriaView(categoria: categoria, sharedState: sharedState)) {
                     Text(categoria)
                         .font(.title2) 
                         .padding(10)

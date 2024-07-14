@@ -6,6 +6,7 @@ struct EserciziCategoriaView: View {
     @State private var searchText: String = ""
     var isSelectable: Bool = true // Default is selectable
     var onAddEsercizio: ((Esercizio) -> Bool)? // Callback returns success
+    @ObservedObject var sharedState: SharedState
     
     var body: some View {
         VStack {
@@ -18,7 +19,7 @@ struct EserciziCategoriaView: View {
             List {
                 ForEach(filteredEsercizi, id: \.id) { esercizio in
                     if isSelectable {
-                        NavigationLink(destination: EsercizioNoteDetailView(esercizio: esercizio)) {
+                        NavigationLink(destination: EsercizioNoteDetailView(esercizio: esercizio, sharedState: sharedState)) {
                             VStack(alignment: .leading) {
                                 Text(esercizio.nome)
                                     .font(.headline)

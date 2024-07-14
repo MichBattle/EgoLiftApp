@@ -3,6 +3,7 @@ import SwiftUI
 struct TuttiEserciziView: View {
     @State private var esercizi: [Esercizio] = []
     @State private var searchText: String = ""
+    @ObservedObject var sharedState: SharedState
 
     var body: some View {
         VStack {
@@ -14,7 +15,7 @@ struct TuttiEserciziView: View {
 
             List {
                 ForEach(filteredEsercizi, id: \.id) { esercizio in
-                    NavigationLink(destination: EsercizioNoteDetailView(esercizio: esercizio)) {
+                    NavigationLink(destination: EsercizioNoteDetailView(esercizio: esercizio, sharedState: sharedState)) {
                         VStack(alignment: .leading) {
                             Text(esercizio.nome)
                                 .font(.headline)

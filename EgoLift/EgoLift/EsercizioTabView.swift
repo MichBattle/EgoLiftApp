@@ -3,11 +3,12 @@ import SwiftUI
 struct EsercizioTabView: View {
     var esercizi: [Esercizio]
     @State var currentIndex: Int
+    @ObservedObject var sharedState = SharedState()
     
     var body: some View {
         TabView(selection: $currentIndex) {
             ForEach(esercizi.indices, id: \.self) { index in
-                EsercizioDetailView(esercizio: esercizi[index])
+                EsercizioDetailView(esercizio: esercizi[index], sharedState: sharedState)
                     .tag(index)
             }
         }
