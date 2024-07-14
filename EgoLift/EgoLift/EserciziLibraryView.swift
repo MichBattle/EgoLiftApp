@@ -31,17 +31,14 @@ struct EserciziLibraryView: View {
             .onAppear {
                 loadEsercizi()
             }
-            .alert(isPresented: $showAlert) {
-                Alert(
-                    title: Text("Esercizio Aggiunto"),
-                    message: Text("L'esercizio è stato aggiunto con successo."),
-                    dismissButton: .default(Text("OK"))
-                )
+            .padding()
+            .alert("Esercizio aggiunto!", isPresented: $showAlert) {
+                Button("Ok", role: .cancel){}
             }
             .alert(isPresented: $showErrorAlert) {
                 Alert(
                     title: Text("Errore"),
-                    message: Text("Errore nell'aggiunta dell'esercizio."),
+                    message: Text("Esercizio già presente nell'allenamento!"),
                     dismissButton: .default(Text("OK"))
                 )
             }

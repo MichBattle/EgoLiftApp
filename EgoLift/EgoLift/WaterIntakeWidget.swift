@@ -19,13 +19,13 @@ struct WaterIntakeWidget: View {
                     }
                     .alert(isPresented: $showResetAlert) {
                         Alert(
-                            title: Text("Reset Water Intake"),
-                            message: Text("Are you sure you want to reset your water intake?"),
+                            title: Text("Resetta l'acqua"),
+                            message: Text("Sicuro di voler resettare l'acqua?"),
                             primaryButton: .destructive(Text("Reset")) {
                                 waterConsumed = 0
                                 UserDefaults.standard.set(waterConsumed, forKey: "waterConsumed")
                             },
-                            secondaryButton: .cancel()
+                            secondaryButton: .cancel(Text("Annulla"))
                         )
                     }
 
@@ -87,23 +87,28 @@ struct WaterIntakeWidget: View {
                         dailyGoal = newDailyGoal
                         UserDefaults.standard.set(dailyGoal, forKey: "dailyGoal")
                         isEditingGoal.toggle()
-                    }) {
-                        Text("Save")
-                            .padding()
-                            .background(Color.blue)
-                            .foregroundColor(.white)
-                            .cornerRadius(8)
+                    }){
+                        Text("Salva")
                     }
-
+                    .fixedSize()
+                    .foregroundColor(.white)
+                    .frame(width: 100, height: 20)
+                    .padding()
+                    .background(Color.blue)
+                    .cornerRadius(8)
+                    
                     Button(action: {
                         isEditingGoal.toggle()
-                    }) {
-                        Text("Cancel")
-                            .padding()
-                            .background(Color.red)
-                            .foregroundColor(.white)
-                            .cornerRadius(8)
+                    }){
+                        Text("Annulla")
                     }
+                    .fixedSize()
+                    .foregroundColor(.white)
+                    .frame(width: 100, height: 20)
+                    .padding()
+                    .background(Color.red)
+                    .cornerRadius(8)
+                        
                 }
             }
         }

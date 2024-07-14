@@ -16,6 +16,7 @@ struct ContentView: View {
     @State private var numeroSet: String = ""
     @State private var tipoEsercizioSelezionato = "Petto"
     @State private var esercizi: [Esercizio] = []
+    @State private var showRestrictedAlert: Bool = false // Aggiungi questa linea
     @ObservedObject var sharedState = SharedState()
     let tipiEsercizio = ["Petto", "Schiena", "Spalle", "Bicipiti", "Tricipiti", "Gambe", "Addome", "Cardio", "Altro"]
     
@@ -80,16 +81,19 @@ struct ContentView: View {
             Spacer()
             
             Button(action: {
-                if !sharedState.esercizioDetailView {
+                if !sharedState.esercizioDetailView && !sharedState.eserciziListView && !sharedState.esercizioNoteDetailView {
                     if sharedState.allenamentoDetailView {
                         isAddingFromLibrary.toggle()
                     } else if sharedState.noteListView {
                         isAddingNota.toggle()
-                    } else if sharedState.eserciziListView {
+                    } else if sharedState.eserciziCategoriaView {
                         isAddingEsercizio.toggle()
                     } else {
                         isAddingAllenamento.toggle()
                     }
+                } else {
+                    print("AA")
+                    showRestrictedAlert = true // Mostra l'alert
                 }
             }) {
                 Image(systemName: "plus.circle.fill")
@@ -98,6 +102,9 @@ struct ContentView: View {
                     .frame(width: 48, height: 48)
             }
             .padding()
+            .alert("Non puoi aggiungere nuovi elementi da qua", isPresented: $showRestrictedAlert) {
+                Button("Ok", role: .cancel){}
+            }
             .sheet(isPresented: $isAddingAllenamento) {
                 VStack {
                     Text("Nuovo Allenamento")
@@ -167,7 +174,7 @@ struct ContentView: View {
             .alert(isPresented: $showErrorAlert) {
                 Alert(
                     title: Text("Errore"),
-                    message: Text("Esercizio con lo stesso nome e descrizione esiste già."),
+                    message: Text("Esiste già un sercizio con lo stesso nome e descrizione"),
                     dismissButton: .default(Text("OK"))
                 )
             }
@@ -232,25 +239,9 @@ struct ContentView: View {
                     }
                     .frame(maxWidth: .infinity)
                     
-                    VStack(alignment: .leading) {
-                        Text("Tipo di Esercizio")
-                            .foregroundColor(.gray)
-                            .padding(.horizontal, 8)
-                            .padding(.top, 12)
-                        Picker(selection: $tipoEsercizioSelezionato, label: Text("Tipo di Esercizio")) {
-                            ForEach(tipiEsercizio, id: \.self) { tipo in
-                                Text(tipo).tag(tipo)
-                            }
-                        }
-                        .pickerStyle(MenuPickerStyle())
-                        .padding(4)
-                        .background(RoundedRectangle(cornerRadius: 8).stroke(Color.gray, lineWidth: 1))
-                    }
-                    .frame(maxWidth: .infinity)
-                    
                     Button(action: {
                         if let recupero = Int(tempoRecupero) {
-                            if DatabaseManager.shared.addEsercizio(nome: nuovoEsercizioNome, descrizione: nuovaDescrizione, tempoRecupero: recupero, note: "", numeroSet: numeroSet, tipo: tipoEsercizioSelezionato, allenamentoID: 0, isOriginal: true) {
+                            if DatabaseManager.shared.addEsercizio(nome: nuovoEsercizioNome, descrizione: nuovaDescrizione, tempoRecupero: recupero, note: "", numeroSet: numeroSet, tipo: sharedState.categoria, allenamentoID: 0, isOriginal: true) {
                                 nuovoEsercizioNome = ""
                                 nuovaDescrizione = ""
                                 tempoRecupero = ""
@@ -278,7 +269,7 @@ struct ContentView: View {
                 .alert(isPresented: $showErrorAlert) {
                     Alert(
                         title: Text("Errore"),
-                        message: Text("Esercizio con lo stesso nome e descrizione esiste già."),
+                        message: Text("Esiste già un sercizio con lo stesso nome e descrizione"),
                         dismissButton: .default(Text("OK"))
                     )
                 }

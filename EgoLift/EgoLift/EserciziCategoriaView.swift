@@ -60,7 +60,13 @@ struct EserciziCategoriaView: View {
         }
         .navigationBarTitle(categoria)
         .onAppear {
+            sharedState.eserciziCategoriaView = true
+            sharedState.categoria = categoria
             loadEsercizi()
+        }
+        .onDisappear(){
+            sharedState.categoria = ""
+            sharedState.eserciziCategoriaView = false
         }
     }
 

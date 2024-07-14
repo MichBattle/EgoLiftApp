@@ -58,13 +58,8 @@ struct EsercizioDetailView: View {
         }
         .padding()
         .navigationBarTitle(esercizio.nome)
-        .navigationBarItems(trailing: Button(action: {
-            isViewingNotes.toggle()
-        }) {
+        .navigationBarItems(trailing: NavigationLink(destination: NoteListView(esercizio: esercizio, sharedState: sharedState)) {
             Text("Note")
-        }
-        .sheet(isPresented: $isViewingNotes) {
-            NoteListView(esercizio: esercizio, sharedState: sharedState)
         })
     }
 }
