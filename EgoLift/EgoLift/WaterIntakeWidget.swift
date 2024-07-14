@@ -42,13 +42,12 @@ struct WaterIntakeWidget: View {
                         VStack {
                             Text("Water goal")
                                 .font(.headline)
-                                .onTapGesture {
-                                    newDailyGoal = dailyGoal
-                                    isEditingGoal.toggle()
-                                }
-                            Text("\(Int(dailyGoal)) ml")
-                                .font(.subheadline)
+                            Text("\(Int(waterConsumed)) ml / \(Int(dailyGoal)) ml")
+                                .font(.caption)
                                 .foregroundColor(.gray)
+                        }.onTapGesture {
+                            newDailyGoal = dailyGoal
+                            isEditingGoal.toggle()
                         }
                     }
                 }
@@ -60,7 +59,6 @@ struct WaterIntakeWidget: View {
                 VStack {
                     Button(action: {
                         waterConsumed += 500
-                        if waterConsumed > dailyGoal { waterConsumed = dailyGoal }
                         UserDefaults.standard.set(waterConsumed, forKey: "waterConsumed")
                     }) {
                         Image(systemName: "plus.circle")

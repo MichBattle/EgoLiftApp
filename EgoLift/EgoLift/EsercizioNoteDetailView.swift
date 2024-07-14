@@ -22,33 +22,31 @@ struct EsercizioNoteDetailView: View {
             
             Spacer()
             
-            HStack {
-                Button(action: {
-                    isEditing.toggle()
-                }) {
-                    Text("Modifica")
-                }
-                .padding()
-                .sheet(isPresented: $isEditing) {
-                    EsercizioEditView(esercizio: esercizio, isPresented: $isEditing)
-                }
-                
-                Spacer()
-                
-                Button(action: {
-                    isViewingNotes.toggle()
-                }) {
-                    Text("Note")
-                }
-                .padding()
-                .background(
-                    NavigationLink(destination: NoteListView(esercizio: esercizio, sharedState: sharedState), isActive: $isViewingNotes) {
-                        EmptyView()
-                    }.hidden()
-                )
+            Button(action: {
+                isEditing.toggle()
+            }) {
+                Text("Modifica")
+                    .font(.headline)
+                    .foregroundColor(.white)
+                    .padding()
+                    .frame(width: 200) // Adjust the width as needed
+                    .background(Color.blue)
+                    .cornerRadius(10)
+            }
+            .padding()
+            .sheet(isPresented: $isEditing) {
+                EsercizioEditView(esercizio: esercizio, isPresented: $isEditing)
             }
         }
         .padding()
         .navigationBarTitle(esercizio.nome)
+        .navigationBarItems(trailing: Button(action: {
+            isViewingNotes.toggle()
+        }) {
+            Text("Note")
+        }
+        .sheet(isPresented: $isViewingNotes) {
+            NoteListView(esercizio: esercizio, sharedState: sharedState)
+        })
     }
 }

@@ -21,17 +21,6 @@ struct EsercizioDetailView: View {
                 .cornerRadius(8)
             
             if timerManager.timerRunning {
-                Text("Tempo rimanente: \(Int(timerManager.secondsRemaining)) secondi")
-                    .font(.largeTitle)
-                    .padding()
-                
-                ProgressView(value: timerManager.secondsRemaining, total: Double(esercizio.tempoRecupero))
-                    .progressViewStyle(LinearProgressViewStyle(tint: timerManager.currentEsercizioID == esercizio.id ? Color.green : Color.red))
-                    .padding()
-                    .animation(.linear(duration: 0.1), value: timerManager.secondsRemaining)
-            }
-            
-            if timerManager.timerRunning {
                 Button(action: {
                     timerManager.stopTimer()
                 }) {
@@ -47,12 +36,24 @@ struct EsercizioDetailView: View {
                 .padding()
             }
             
+            if timerManager.timerRunning {
+                Text("Tempo rimanente: \(Int(timerManager.secondsRemaining)) secondi")
+                    .font(.largeTitle)
+                    .padding()
+                
+                ProgressView(value: timerManager.secondsRemaining, total: Double(esercizio.tempoRecupero))
+                    .progressViewStyle(LinearProgressViewStyle(tint: timerManager.currentEsercizioID == esercizio.id ? Color.green : Color.red))
+                    .padding()
+                    .animation(.linear(duration: 0.1), value: timerManager.secondsRemaining)
+            }
+            
             Spacer()
         }
-        .onAppear(){
+        .onAppear {
             sharedState.esercizioDetailView = true
+            timerManager.loadTimerState()
         }
-        .onDisappear(){
+        .onDisappear {
             sharedState.esercizioDetailView = false
         }
         .padding()
@@ -62,14 +63,8 @@ struct EsercizioDetailView: View {
         }) {
             Text("Note")
         }
-        .background(
-            NavigationLink(destination: NoteListView(esercizio: esercizio, sharedState: sharedState), isActive: $isViewingNotes) {
-                EmptyView()
-            }
-            .hidden()
-        ))
-        .onAppear {
-            timerManager.loadTimerState()
-        }
+        .sheet(isPresented: $isViewingNotes) {
+            NoteListView(esercizio: esercizio, sharedState: sharedState)
+        })
     }
 }
