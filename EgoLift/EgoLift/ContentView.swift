@@ -8,6 +8,7 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             VStack {
+                WaterIntakeWidget()
                 List {
                     ForEach(palestra.allenamenti, id: \.id) { allenamento in
                         NavigationLink(destination: AllenamentoDetailView(allenamento: allenamento, palestra: palestra)) {
@@ -78,9 +79,13 @@ struct ContentView: View {
                             .frame(width: 60, height: 30)
                     }
                 }
-                .padding()
-            }
-            .navigationBarTitle("Allenamenti")
+            }.navigationTitle("Home")
         }
+    }
+}
+
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView()
     }
 }
