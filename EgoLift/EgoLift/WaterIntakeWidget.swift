@@ -39,12 +39,17 @@ struct WaterIntakeWidget: View {
                         .labelsHidden()
                         .pickerStyle(WheelPickerStyle())
                     } else {
-                        Text("Water goal")
-                            .font(.headline)
-                            .onTapGesture {
-                                newDailyGoal = dailyGoal
-                                isEditingGoal.toggle()
-                            }
+                        VStack {
+                            Text("Water goal")
+                                .font(.headline)
+                                .onTapGesture {
+                                    newDailyGoal = dailyGoal
+                                    isEditingGoal.toggle()
+                                }
+                            Text("\(Int(dailyGoal)) ml")
+                                .font(.subheadline)
+                                .foregroundColor(.gray)
+                        }
                     }
                 }
                 .frame(maxWidth: .infinity)
