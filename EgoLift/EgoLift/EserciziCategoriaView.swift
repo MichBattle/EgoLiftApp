@@ -71,7 +71,7 @@ struct EserciziCategoriaView: View {
             return esercizi.filter { $0.tipo == categoria && $0.nome.lowercased().contains(searchText.lowercased()) }
         }
     }
-
+    
     private func loadEsercizi() {
         esercizi = DatabaseManager.shared.fetchAllEsercizi().filter { $0.tipo == categoria }
     }

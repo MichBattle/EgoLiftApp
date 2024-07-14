@@ -25,7 +25,9 @@ struct ContentView: View {
                 if selectedTab == 0 {
                     homeView
                 } else if selectedTab == 1 {
-                    EserciziListView(sharedState: sharedState)
+                    NavigationView {
+                        EserciziListView(sharedState: sharedState)
+                    }
                 }
                 
                 Spacer()
