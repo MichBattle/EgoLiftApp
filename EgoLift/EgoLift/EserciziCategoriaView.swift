@@ -55,7 +55,7 @@ struct EserciziCategoriaView: View {
                     }
                 }
                 .onDelete(perform: isSelectable ? eliminaEsercizi : nil)
-            }
+            }.listStyle(PlainListStyle())
         }
         .navigationBarTitle(categoria)
         .onAppear {

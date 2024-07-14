@@ -26,7 +26,8 @@ struct TuttiEserciziView: View {
                     }
                 }
                 .onDelete(perform: eliminaEsercizi)
-            }
+
+            }.listStyle(PlainListStyle())
         }
         .navigationBarTitle("Tutti gli Esercizi")
         .onAppear {

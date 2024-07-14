@@ -12,7 +12,7 @@ struct NoteListView: View {
                     Text(nota.content)
                 }
                 .onDelete(perform: eliminaNota)
-            }
+            }.listStyle(PlainListStyle())
             
             Spacer()
         }

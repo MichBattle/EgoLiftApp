@@ -1,9 +1,10 @@
 import SwiftUI
 
 struct ContentView: View {
-    @ObservedObject var palestra = Palestra()
-    @State private var nuovoAllenamentoNome: String = ""
-    @State private var isAddingAllenamento: Bool = false
+@ObservedObject var palestra = Palestra()
+@State private var nuovoAllenamentoNome: String = ""
+@State private var isAddingAllenamento: Bool = false
+
 
     var body: some View {
         NavigationView {
@@ -21,7 +22,7 @@ struct ContentView: View {
                             palestra.eliminaAllenamento(allenamento: allenamento)
                         }
                     }
-                }
+                }.listStyle(PlainListStyle())
 
                 Spacer()
 

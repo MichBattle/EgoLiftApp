@@ -22,7 +22,7 @@ struct EserciziListView: View {
                         .font(.headline)
                         .padding()
                 }
-            }
+            }.listStyle(PlainListStyle())
         }
         .navigationBarTitle("Esercizi")
         .navigationBarItems(trailing: Button(action: {

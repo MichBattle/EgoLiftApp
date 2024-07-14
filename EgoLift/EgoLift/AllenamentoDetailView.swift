@@ -27,7 +27,7 @@ struct AllenamentoDetailView: View {
                         allenamento.rimuoviEsercizio(esercizio: esercizio)
                     }
                 }
-            }
+            }.listStyle(PlainListStyle())
             
             Spacer()
         }

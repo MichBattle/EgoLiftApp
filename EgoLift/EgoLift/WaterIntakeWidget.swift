@@ -7,7 +7,7 @@ struct WaterIntakeWidget: View {
     @State private var newDailyGoal: Double = 2000 // Default value for picker
     @State private var showResetAlert: Bool = false
 
-    let goalOptions: [Double] = Array(stride(from: 500.0, to: 5500.0, by: 500.0))
+    let goalOptions: [Double] = Array(stride(from: 1000.0, to: 10000.0, by: 1000.0))
 
     var body: some View {
         VStack {
@@ -54,7 +54,7 @@ struct WaterIntakeWidget: View {
 
                 VStack {
                     Button(action: {
-                        waterConsumed += 250
+                        waterConsumed += 500
                         if waterConsumed > dailyGoal { waterConsumed = dailyGoal }
                         UserDefaults.standard.set(waterConsumed, forKey: "waterConsumed")
                     }) {
@@ -64,7 +64,7 @@ struct WaterIntakeWidget: View {
                     }
 
                     Button(action: {
-                        waterConsumed -= 250
+                        waterConsumed -= 500
                         if waterConsumed < 0 { waterConsumed = 0 }
                         UserDefaults.standard.set(waterConsumed, forKey: "waterConsumed")
                     }) {

@@ -3,7 +3,6 @@ import SwiftUI
 struct EsercizioDetailView: View {
     @ObservedObject var esercizio: Esercizio
     @ObservedObject var timerManager = TimerManager.shared
-    @State private var isEditing: Bool = false
     @State private var isViewingNotes: Bool = false
     
     var body: some View {
@@ -50,16 +49,6 @@ struct EsercizioDetailView: View {
             Spacer()
             
             HStack {
-                Button(action: {
-                    isEditing.toggle()
-                }) {
-                    Text("Modifica")
-                }
-                .padding()
-                .sheet(isPresented: $isEditing) {
-                    EsercizioEditView(esercizio: esercizio, isPresented: $isEditing)
-                }
-                
                 Spacer()
                 
                 Button(action: {
