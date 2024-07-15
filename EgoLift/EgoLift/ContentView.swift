@@ -1,22 +1,27 @@
 import SwiftUI
 
 struct ContentView: View {
-    @ObservedObject var palestra = Palestra()
     @State private var nuovoAllenamentoNome: String = ""
     @State private var isAddingAllenamento: Bool = false
     @State private var isAddingFromLibrary: Bool = false
     @State private var isAddingNota: Bool = false
     @State private var showErrorAlert: Bool = false
+    @State private var showEmptyFieldsAlert: Bool = false
     @State private var isAddingEsercizio: Bool = false
     @State private var selectedTab: Int = 0
     @State private var nuovaNota: String = ""
     @State private var nuovoEsercizioNome: String = ""
     @State private var nuovaDescrizione: String = ""
     @State private var tempoRecupero: String = ""
+    @State private var isAddingFromAllenamento: Bool = false
+    @State private var isAddingFromCategoria: Bool = false
     @State private var numeroSet: String = ""
     @State private var tipoEsercizioSelezionato = "Petto"
     @State private var esercizi: [Esercizio] = []
-    @State private var showRestrictedAlert: Bool = false // Aggiungi questa linea
+    @State private var showRestrictedAlert: Bool = false
+    @State private var showActionSheet: Bool = false
+    @State private var erroreVuoto: Bool = false
+    @ObservedObject var palestra = Palestra()
     @ObservedObject var sharedState = SharedState()
     let tipiEsercizio = ["Petto", "Schiena", "Spalle", "Bicipiti", "Tricipiti", "Gambe", "Addome", "Cardio", "Altro"]
     
@@ -83,16 +88,16 @@ struct ContentView: View {
             Button(action: {
                 if !sharedState.esercizioDetailView && !sharedState.eserciziListView && !sharedState.esercizioNoteDetailView {
                     if sharedState.allenamentoDetailView {
-                        isAddingFromLibrary.toggle()
+                        showActionSheet.toggle()
                     } else if sharedState.noteListView {
                         isAddingNota.toggle()
                     } else if sharedState.eserciziCategoriaView {
+                        isAddingFromCategoria.toggle()
                         isAddingEsercizio.toggle()
                     } else {
                         isAddingAllenamento.toggle()
                     }
                 } else {
-                    print("AA")
                     showRestrictedAlert = true // Mostra l'alert
                 }
             }) {
@@ -105,34 +110,33 @@ struct ContentView: View {
             .alert("Non puoi aggiungere nuovi elementi da qua", isPresented: $showRestrictedAlert) {
                 Button("Ok", role: .cancel){}
             }
-            .sheet(isPresented: $isAddingAllenamento) {
-                VStack {
-                    Text("Nuovo Allenamento")
-                        .font(.headline)
-                        .padding()
-                    
-                    TextEditor(text: $nuovoAllenamentoNome)
-                        .padding()
-                        .frame(maxWidth: .infinity, minHeight: 50)
-                        .background(RoundedRectangle(cornerRadius: 8).stroke(Color.gray, lineWidth: 1))
-                    
-                    Button(action: {
+            .actionSheet(isPresented: $showActionSheet) {
+                ActionSheet(title: Text("Aggiungi Esercizio"), buttons: [
+                    .default(Text("Aggiungi da Libreria")) {
+                        isAddingFromLibrary.toggle()
+                    },
+                    .default(Text("Crea Nuovo Esercizio")) {
+                        isAddingFromAllenamento.toggle()
+                        isAddingEsercizio.toggle()
+                    },
+                    .cancel()
+                ])
+            }
+            .alert("Nuovo Allenamento", isPresented: $isAddingAllenamento) {
+                        TextField("Inserisci nome", text: $nuovoAllenamentoNome)
+                Button("OK", action: {
+                    if nuovoAllenamentoNome == "" {
+                        erroreVuoto.toggle()
+                    } else {
                         palestra.aggiungiAllenamento(nome: nuovoAllenamentoNome)
-                        nuovoAllenamentoNome = ""
-                        isAddingAllenamento = false
-                    }) {
-                        Text("Crea Allenamento")
                     }
-                    .padding()
-                    
-                    Button(action: {
-                        isAddingAllenamento = false
-                    }) {
-                        Text("Annulla")
-                    }
-                    .padding()
-                }
-                .padding()
+                    nuovoAllenamentoNome = ""
+                    isAddingAllenamento = false
+                })
+                Button("Annulla", action: {
+                    nuovoAllenamentoNome = ""
+                    isAddingAllenamento = false
+                })
             }
             .sheet(isPresented: $isAddingFromLibrary) {
                 if let allenamento = sharedState.currentAllenamento {
@@ -140,6 +144,9 @@ struct ContentView: View {
                 } else {
                     Text("Seleziona un allenamento prima di aggiungere esercizi dalla libreria.")
                 }
+            }
+            .alert("Inserisci il nome!", isPresented: $erroreVuoto){
+                Button("Ok", role: .cancel){}
             }
             .sheet(isPresented: $isAddingNota) {
                 VStack {
@@ -153,7 +160,6 @@ struct ContentView: View {
                         .background(RoundedRectangle(cornerRadius: 8).stroke(Color.gray, lineWidth: 1))
                     
                     Button(action: {
-                        // Assuming there's a method to add a note in your data model
                         sharedState.currentEsercizio?.aggiungiNota(content: nuovaNota)
                         nuovaNota = ""
                         isAddingNota = false
@@ -161,24 +167,23 @@ struct ContentView: View {
                         Text("Aggiungi Nota")
                     }
                     .padding()
-                    
-                    Button(action: {
-                        isAddingNota = false
-                    }) {
-                        Text("Annulla")
-                    }
-                    .padding()
                 }
                 .padding()
+                .onDisappear(){
+                    isAddingNota = false
+                }
             }
-            .alert(isPresented: $showErrorAlert) {
-                Alert(
-                    title: Text("Errore"),
-                    message: Text("Esiste già un sercizio con lo stesso nome e descrizione"),
-                    dismissButton: .default(Text("OK"))
-                )
+            .alert("Esiste già un sercizio con lo stesso nome e descrizione!", isPresented: $showErrorAlert) {
+                Button("Ok", role: .cancel){}
             }
-            .sheet(isPresented: $isAddingEsercizio) {
+            .alert("Riepmpi tutti i campi!", isPresented: $showEmptyFieldsAlert) {
+                Button("Ok", role: .cancel){}
+            }
+            .sheet(isPresented: $isAddingEsercizio, onDismiss: {
+                isAddingEsercizio = false
+                isAddingFromCategoria = false
+                isAddingFromAllenamento = false
+            }) {
                 VStack {
                     Text("Nuovo Esercizio")
                         .font(.headline)
@@ -190,6 +195,18 @@ struct ContentView: View {
                             .padding(.horizontal, 8)
                             .padding(.top, 12)
                         TextEditor(text: $nuovoEsercizioNome)
+                            .padding(4)
+                            .frame(maxWidth: .infinity, minHeight: 50)
+                            .background(RoundedRectangle(cornerRadius: 8).stroke(Color.gray, lineWidth: 1))
+                    }
+                    .frame(maxWidth: .infinity)
+                    
+                    VStack(alignment: .leading) {
+                        Text("Numero Set")
+                            .foregroundColor(.gray)
+                            .padding(.horizontal, 8)
+                            .padding(.top, 12)
+                        TextEditor(text: $numeroSet)
                             .padding(4)
                             .frame(maxWidth: .infinity, minHeight: 50)
                             .background(RoundedRectangle(cornerRadius: 8).stroke(Color.gray, lineWidth: 1))
@@ -227,27 +244,45 @@ struct ContentView: View {
                     }
                     .frame(maxWidth: .infinity)
                     
-                    VStack(alignment: .leading) {
-                        Text("Numero Set")
-                            .foregroundColor(.gray)
+                    // Sezione aggiunta per selezionare il tipo di esercizio
+                    if !isAddingFromCategoria {
+                        VStack(alignment: .center) {
+                            Text("Tipo di Esercizio")
+                                .foregroundColor(.gray)
+                                .padding(.horizontal, 8)
+                                .padding(.top, 12)
+                            Picker("Tipo di Esercizio", selection: $tipoEsercizioSelezionato) {
+                                ForEach(tipiEsercizio, id: \.self) {
+                                    Text($0)
+                                }
+                            }
+                            .pickerStyle(MenuPickerStyle())
                             .padding(.horizontal, 8)
-                            .padding(.top, 12)
-                        TextEditor(text: $numeroSet)
-                            .padding(4)
-                            .frame(maxWidth: .infinity, minHeight: 50)
-                            .background(RoundedRectangle(cornerRadius: 8).stroke(Color.gray, lineWidth: 1))
+                        }
                     }
-                    .frame(maxWidth: .infinity)
                     
                     Button(action: {
-                        if let recupero = Int(tempoRecupero) {
-                            if DatabaseManager.shared.addEsercizio(nome: nuovoEsercizioNome, descrizione: nuovaDescrizione, tempoRecupero: recupero, note: "", numeroSet: numeroSet, tipo: sharedState.categoria, allenamentoID: 0, isOriginal: true) {
+                        var tipo: String
+                        if isAddingFromAllenamento {
+                            tipo = tipoEsercizioSelezionato
+                        } else if isAddingFromCategoria {
+                            tipo = sharedState.categoria
+                        } else {
+                            tipo = "Altro"
+                        }
+                        
+                        if nuovoEsercizioNome.isEmpty || nuovaDescrizione.isEmpty || tempoRecupero.isEmpty || numeroSet.isEmpty {
+                            showEmptyFieldsAlert = true
+                        } else if let recupero = Int(tempoRecupero) {
+                            if DatabaseManager.shared.addEsercizio(nome: nuovoEsercizioNome, descrizione: nuovaDescrizione, tempoRecupero: recupero, note: "", numeroSet: numeroSet, tipo: tipo, allenamentoID: 0, isOriginal: true) {
                                 nuovoEsercizioNome = ""
                                 nuovaDescrizione = ""
                                 tempoRecupero = ""
                                 numeroSet = ""
                                 tipoEsercizioSelezionato = "Petto"
                                 isAddingEsercizio = false
+                                isAddingFromCategoria = false
+                                isAddingFromAllenamento = false
                                 loadEsercizi()
                             } else {
                                 showErrorAlert = true
@@ -255,13 +290,6 @@ struct ContentView: View {
                         }
                     }) {
                         Text("Aggiungi Esercizio")
-                    }
-                    .padding()
-                    
-                    Button(action: {
-                        isAddingEsercizio = false
-                    }) {
-                        Text("Annulla")
                     }
                     .padding()
                 }

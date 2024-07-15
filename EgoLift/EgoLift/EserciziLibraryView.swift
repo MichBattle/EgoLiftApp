@@ -25,7 +25,7 @@ struct EserciziLibraryView: View {
                             .font(.title2)
                             .padding(10)
                     }
-                }
+                }.listStyle(PlainListStyle())
             }
             .navigationBarTitle("Esercizi")
             .onAppear {

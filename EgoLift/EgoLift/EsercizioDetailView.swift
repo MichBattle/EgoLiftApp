@@ -5,6 +5,7 @@ struct EsercizioDetailView: View {
     @ObservedObject var timerManager = TimerManager.shared
     @State private var isViewingNotes: Bool = false
     @ObservedObject var sharedState: SharedState
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
     var body: some View {
         VStack(spacing: 16) {
@@ -49,12 +50,14 @@ struct EsercizioDetailView: View {
             
             Spacer()
         }
+        .onChange(of: presentationMode.wrappedValue.isPresented) { isPresented in
+            if !isPresented {
+                sharedState.esercizioDetailView = false
+            }
+        }
         .onAppear {
             sharedState.esercizioDetailView = true
             timerManager.loadTimerState()
-        }
-        .onDisappear {
-            sharedState.esercizioDetailView = false
         }
         .padding()
         .navigationBarTitle(esercizio.nome)
