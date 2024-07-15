@@ -6,6 +6,7 @@ struct EsercizioEditView: View {
     @State private var nome: String
     @State private var descrizione: String
     @State private var tempoRecupero: String
+    @State private var alert: Bool = false
     
     init(esercizio: Esercizio, isPresented: Binding<Bool>) {
         self.esercizio = esercizio
@@ -18,44 +19,77 @@ struct EsercizioEditView: View {
     var body: some View {
         NavigationView {
             VStack(spacing: 16) {
-                TextField("Nome Esercizio", text: $nome)
-                    .padding()
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("Nome Esercizio")
+                        .font(.headline)
+                    TextEditor(text: $nome)
+                        .frame(height: 40)
+                        .padding(4)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 8)
+                                .stroke(Color.gray, lineWidth: 1)
+                        )
+                }
                 
-                TextField("Descrizione Esercizio", text: $descrizione)
-                    .padding()
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("Descrizione Esercizio")
+                        .font(.headline)
+                    TextEditor(text: $descrizione)
+                        .frame(height: 80)
+                        .padding(4)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 8)
+                                .stroke(Color.gray, lineWidth: 1)
+                        )
+                }
                 
-                TextField("Tempo di Recupero (secondi)", text: $tempoRecupero)
-                    .keyboardType(.numberPad)
-                    .padding()
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .onChange(of: tempoRecupero) { newValue in
-                        let filtered = newValue.filter { "0123456789".contains($0) }
-                        if filtered != newValue {
-                            self.tempoRecupero = filtered
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("Tempo di Recupero (secondi)")
+                        .font(.headline)
+                    TextEditor(text: $tempoRecupero)
+                        .frame(height: 40)
+                        .padding(4)
+                        .keyboardType(.numberPad)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 8)
+                                .stroke(Color.gray, lineWidth: 1)
+                        )
+                        .onChange(of: tempoRecupero) { newValue in
+                            let filtered = newValue.filter { "0123456789".contains($0) }
+                            if filtered != newValue {
+                                self.tempoRecupero = filtered
+                            }
                         }
-                    }
+                }
                 
                 Button(action: {
-                    if let recupero = Int(tempoRecupero) {
-                        esercizio.nome = nome
-                        esercizio.descrizione = descrizione
-                        esercizio.tempoRecupero = recupero
-                        isPresented = false
+                    if !DatabaseManager.shared.esercizioEsisteGlobalmente(nome: nome, descrizione: descrizione) {
+                        if let recupero = Int(tempoRecupero) {
+                            esercizio.nome = nome
+                            esercizio.descrizione = descrizione
+                            esercizio.tempoRecupero = recupero
+                            isPresented = false
+                        }
+                    } else {
+                        alert.toggle()
                     }
                 }) {
                     Text("Salva Modifiche")
                 }
                 .padding()
+                .alert("Esiste già un sercizio con lo stesso nome e descrizione!", isPresented: $alert) {
+                    Button("Ok", role: .cancel){
+                        alert = false
+                    }
+                }
                 
                 Spacer()
             }
             .padding()
             .navigationBarTitle("Modifica Esercizio", displayMode: .inline)
-            .navigationBarItems(leading: Button("Annulla") {
+            .onDisappear(){
                 isPresented = false
-            })
+            }
         }
     }
 }
