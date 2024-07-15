@@ -1,5 +1,6 @@
 EgoLift App
 ===========
+![egoliftpreview](https://github.com/user-attachments/assets/96d50ead-710e-43f3-a3c8-c3b921dc39aa)
 
 Table of Contents
 -----------------
