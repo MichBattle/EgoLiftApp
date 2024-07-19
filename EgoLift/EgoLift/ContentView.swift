@@ -111,7 +111,7 @@ struct ContentView: View {
                 Button("Ok", role: .cancel){}
             }
             .actionSheet(isPresented: $showActionSheet) {
-                ActionSheet(title: Text("Aggiungi Esercizio"), buttons: [
+                ActionSheet(title: Text("Crea Esercizio"), buttons: [
                     .default(Text("Aggiungi da Libreria")) {
                         isAddingFromLibrary.toggle()
                     },
@@ -289,7 +289,7 @@ struct ContentView: View {
                             }
                         }
                     }) {
-                        Text("Aggiungi Esercizio")
+                        Text("Crea Esercizio")
                     }
                     .padding()
                 }

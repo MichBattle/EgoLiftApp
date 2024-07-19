@@ -1,14 +1,13 @@
 import Foundation
-
-import Foundation
+import Combine
 
 class TimerManager: ObservableObject {
     static let shared = TimerManager()
     
     @Published var timerRunning = false
     @Published var secondsRemaining: Double = 0
-    @Published var currentEsercizioID: Int64? // Modificato da UUID a Int64
-    private var timer: Timer?
+    @Published var currentEsercizioID: Int64? // Modified to Int64
+    private var timer: DispatchSourceTimer?
     
     private init() {
         loadTimerState()
@@ -18,34 +17,39 @@ class TimerManager: ObservableObject {
         if !timerRunning {
             secondsRemaining = duration
             timerRunning = true
-            currentEsercizioID = esercizioID // Salva l'ID dell'esercizio
+            currentEsercizioID = esercizioID // Save the exercise ID
             runTimer()
         }
     }
     
     func stopTimer() {
-        timer?.invalidate()
+        timer?.cancel()
         timer = nil
         timerRunning = false
-        currentEsercizioID = nil // Resetta l'ID dell'esercizio
+        currentEsercizioID = nil // Reset the exercise ID
         clearTimerState()
     }
     
     private func runTimer() {
-        timer?.invalidate()
-        timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
-            guard let self = self else { return }
-            if self.secondsRemaining > 0 {
-                self.secondsRemaining -= 1.0
-                self.saveTimerState()
-            } else {
-                self.timer?.invalidate()
-                self.timer = nil
-                self.timerRunning = false
-                self.currentEsercizioID = nil // Resetta l'ID dell'esercizio
-                self.clearTimerState()
+        timer?.cancel()
+        timer = DispatchSource.makeTimerSource()
+        timer?.schedule(deadline: .now(), repeating: 1.0)
+        timer?.setEventHandler { [weak self] in
+            DispatchQueue.main.async {
+                guard let self = self else { return }
+                if self.secondsRemaining > 0 {
+                    self.secondsRemaining -= 1.0
+                    self.saveTimerState()
+                } else {
+                    self.timer?.cancel()
+                    self.timer = nil
+                    self.timerRunning = false
+                    self.currentEsercizioID = nil // Reset the exercise ID
+                    self.clearTimerState()
+                }
             }
         }
+        timer?.resume()
     }
     
     func saveTimerState() {
@@ -72,7 +76,7 @@ class TimerManager: ObservableObject {
     }
     
     func invalidateTimer() {
-        timer?.invalidate()
+        timer?.cancel()
         timer = nil
     }
     
