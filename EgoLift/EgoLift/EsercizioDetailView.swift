@@ -27,6 +27,7 @@ struct EsercizioDetailView: View {
             if timerManager.timerRunning {
                 Button(action: {
                     timerManager.stopTimer()
+                    sharedState.isTimerRunning = false
                     decrementatore = 0
                 }) {
                     Text("Stop Timer")
@@ -35,6 +36,7 @@ struct EsercizioDetailView: View {
             } else {
                 Button(action: {
                     timerManager.startTimer(duration: Double(esercizio.tempoRecupero), for: esercizio.id)
+                    sharedState.isTimerRunning = true
                     secondiMancanti = timerManager.secondsRemaining
                     decrementatore = 0
                 }) {
@@ -86,7 +88,13 @@ struct EsercizioDetailView: View {
         .onReceive(timerManager.$secondsRemaining) { _ in
             secondiMancanti = max(timerManager.secondsRemaining - Double(decrementatore), 0)
             if !timerManager.timerRunning {
+                sharedState.isTimerRunning = false
                 decrementatore = 0
+            }
+        }
+        .onReceive(timerManager.$timerRunning) { timerRunning in
+            if !timerRunning {
+                sharedState.isTimerRunning = false
             }
         }
         .padding()

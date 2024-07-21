@@ -13,4 +13,6 @@ class SharedState: ObservableObject {
     @Published var currentEsercizio: Esercizio? = nil
     @Published var esercizi: [Esercizio] = []
     @Published var categoria: String = ""
+    
+    @Published var isTimerRunning: Bool = false
 }
