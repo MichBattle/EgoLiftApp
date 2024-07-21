@@ -89,6 +89,7 @@ class TimerManager: ObservableObject {
         if let currentEsercizioID = currentEsercizioID {
             UserDefaults.standard.set(currentEsercizioID, forKey: "currentEsercizioID")
         }
+        UserDefaults.standard.set(Date(), forKey: "lastSavedDate")
     }
     
     func loadTimerState() {
@@ -98,6 +99,7 @@ class TimerManager: ObservableObject {
         if let savedTimerRunning = UserDefaults.standard.value(forKey: "timerRunning") as? Bool {
             timerRunning = savedTimerRunning
             if timerRunning {
+                updateRemainingTime()
                 runTimer()
             }
         }
@@ -115,5 +117,21 @@ class TimerManager: ObservableObject {
         UserDefaults.standard.removeObject(forKey: "secondsRemaining")
         UserDefaults.standard.removeObject(forKey: "timerRunning")
         UserDefaults.standard.removeObject(forKey: "currentEsercizioID")
+        UserDefaults.standard.removeObject(forKey: "lastSavedDate")
+    }
+    
+    func updateRemainingTime() {
+        if let lastSavedDate = UserDefaults.standard.value(forKey: "lastSavedDate") as? Date {
+            let timeElapsed = Date().timeIntervalSince(lastSavedDate)
+            if secondsRemaining > 0 {
+                secondsRemaining -= timeElapsed
+                if secondsRemaining <= 0 {
+                    secondsRemaining = 0
+                    timerRunning = false
+                    currentEsercizioID = nil
+                    clearTimerState()
+                }
+            }
+        }
     }
 }

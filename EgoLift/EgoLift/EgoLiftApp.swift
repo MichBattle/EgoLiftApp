@@ -26,6 +26,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     }
     
     func applicationWillEnterForeground(_ application: UIApplication) {
+        TimerManager.shared.updateRemainingTime()
         TimerManager.shared.loadTimerState()
     }
 }
