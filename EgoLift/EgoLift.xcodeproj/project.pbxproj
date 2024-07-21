@@ -21,6 +21,7 @@
 		865D993B2C442018005497EB /* SharedState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865D993A2C442018005497EB /* SharedState.swift */; };
 		8662B79B2C3B083A007E80E1 /* EsercizioEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8662B79A2C3B083A007E80E1 /* EsercizioEditView.swift */; };
 		8662B79D2C3B13C6007E80E1 /* NoteListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8662B79C2C3B13C6007E80E1 /* NoteListView.swift */; };
+		867DD6172C4D1304006FFFDA /* BackgroundTaskManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 867DD6162C4D1304006FFFDA /* BackgroundTaskManager.swift */; };
 		86ADDA362C3BE756007D02C6 /* TimerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86ADDA352C3BE756007D02C6 /* TimerManager.swift */; };
 		86CE5FB22C3D6D06000229F2 /* SQLite in Frameworks */ = {isa = PBXBuildFile; productRef = 86CE5FB12C3D6D06000229F2 /* SQLite */; };
 		86CE5FB42C3D6D1A000229F2 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86CE5FB32C3D6D1A000229F2 /* DatabaseManager.swift */; };
@@ -49,6 +50,7 @@
 		865D993A2C442018005497EB /* SharedState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedState.swift; sourceTree = "<group>"; };
 		8662B79A2C3B083A007E80E1 /* EsercizioEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EsercizioEditView.swift; sourceTree = "<group>"; };
 		8662B79C2C3B13C6007E80E1 /* NoteListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteListView.swift; sourceTree = "<group>"; };
+		867DD6162C4D1304006FFFDA /* BackgroundTaskManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundTaskManager.swift; sourceTree = "<group>"; };
 		86ADDA352C3BE756007D02C6 /* TimerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerManager.swift; sourceTree = "<group>"; };
 		86CE5FB32C3D6D1A000229F2 /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
 		86CE5FB52C3D6E71000229F2 /* Palestra.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Palestra.swift; sourceTree = "<group>"; };
@@ -114,6 +116,7 @@
 				86D3869F2C4301DC008F63F9 /* TuttiEserciziView.swift */,
 				865150592C43D83C00BA1993 /* WaterIntakeWidget.swift */,
 				865D993A2C442018005497EB /* SharedState.swift */,
+				867DD6162C4D1304006FFFDA /* BackgroundTaskManager.swift */,
 			);
 			path = EgoLift;
 			sourceTree = "<group>";
@@ -222,6 +225,7 @@
 				8662B79B2C3B083A007E80E1 /* EsercizioEditView.swift in Sources */,
 				864AA65E2C3AF89E00C6906F /* Esercizio.swift in Sources */,
 				86D386A02C4301DC008F63F9 /* TuttiEserciziView.swift in Sources */,
+				867DD6172C4D1304006FFFDA /* BackgroundTaskManager.swift in Sources */,
 				86CE5FC02C3DADBC000229F2 /* EsercizioNoteDetailView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

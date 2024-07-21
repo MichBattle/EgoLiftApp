@@ -1,4 +1,5 @@
 import SwiftUI
+import UserNotifications
 
 @main
 struct EgoLiftApp: App {
@@ -12,8 +13,16 @@ struct EgoLiftApp: App {
 }
 
 class AppDelegate: NSObject, UIApplicationDelegate {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
+            // Handle granted
+        }
+        return true
+    }
+    
     func applicationDidEnterBackground(_ application: UIApplication) {
         TimerManager.shared.saveTimerState()
+        BackgroundTaskManager.shared.scheduleAppRefresh()
     }
     
     func applicationWillEnterForeground(_ application: UIApplication) {

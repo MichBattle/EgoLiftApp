@@ -1,12 +1,13 @@
 import Foundation
 import Combine
+import UserNotifications
 
 class TimerManager: ObservableObject {
     static let shared = TimerManager()
     
     @Published var timerRunning = false
     @Published var secondsRemaining: Double = 0
-    @Published var currentEsercizioID: Int64? // Modified to Int64
+    @Published var currentEsercizioID: Int64?
     private var timer: DispatchSourceTimer?
     
     private init() {
@@ -17,8 +18,9 @@ class TimerManager: ObservableObject {
         if !timerRunning {
             secondsRemaining = duration
             timerRunning = true
-            currentEsercizioID = esercizioID // Save the exercise ID
+            currentEsercizioID = esercizioID
             runTimer()
+            scheduleNotification()
         }
     }
     
@@ -26,8 +28,9 @@ class TimerManager: ObservableObject {
         timer?.cancel()
         timer = nil
         timerRunning = false
-        currentEsercizioID = nil // Reset the exercise ID
+        currentEsercizioID = nil
         clearTimerState()
+        removeNotification()
     }
     
     private func runTimer() {
@@ -44,12 +47,40 @@ class TimerManager: ObservableObject {
                     self.timer?.cancel()
                     self.timer = nil
                     self.timerRunning = false
-                    self.currentEsercizioID = nil // Reset the exercise ID
+                    self.currentEsercizioID = nil
                     self.clearTimerState()
+                    self.sendCompletionNotification()
                 }
             }
         }
         timer?.resume()
+    }
+    
+    private func scheduleNotification() {
+        let content = UNMutableNotificationContent()
+        content.title = "Timer Complete"
+        content.body = "Your timer has completed."
+        content.sound = UNNotificationSound.default
+        
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: secondsRemaining, repeats: false)
+        let request = UNNotificationRequest(identifier: "timerNotification", content: content, trigger: trigger)
+        
+        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+    }
+    
+    private func removeNotification() {
+        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["timerNotification"])
+    }
+    
+    private func sendCompletionNotification() {
+        let content = UNMutableNotificationContent()
+        content.title = "Timer Complete"
+        content.body = "Your timer has completed."
+        content.sound = UNNotificationSound.default
+        
+        let request = UNNotificationRequest(identifier: "timerCompletionNotification", content: content, trigger: nil)
+        
+        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
     }
     
     func saveTimerState() {
