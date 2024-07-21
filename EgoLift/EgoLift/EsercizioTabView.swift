@@ -13,7 +13,6 @@ struct EsercizioTabView: View {
             }
         }
         .tabViewStyle(PageTabViewStyle(indexDisplayMode: .automatic))
-        .disabled(sharedState.isTimerRunning) // Disable scrolling when the timer is running
         .navigationBarTitle(esercizi[currentIndex].nome)
         .onChange(of: currentIndex) { newIndex in
             // Update the navigation bar title with the new exercise name

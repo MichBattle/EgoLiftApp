@@ -46,7 +46,7 @@ struct EsercizioDetailView: View {
             }
             
             if timerManager.timerRunning {
-                if secondiMancanti > 0 {
+                if secondiMancanti >= 0 {
                     Text("Tempo rimanente: \(Int(secondiMancanti)) secondi")
                         .font(.largeTitle)
                         .padding()
@@ -55,10 +55,6 @@ struct EsercizioDetailView: View {
                         .progressViewStyle(LinearProgressViewStyle(tint: timerManager.currentEsercizioID == esercizio.id ? Color.green : Color.red))
                         .padding()
                         .animation(.linear(duration: 0.1), value: secondiMancanti)
-                } else {
-                    Text("Tempo rimanente: 0 secondi")
-                        .font(.largeTitle)
-                        .padding()
                 }
             }
             
@@ -80,7 +76,7 @@ struct EsercizioDetailView: View {
             if newPhase == .active {
                 timerManager.updateRemainingTime()
                 timerManager.loadTimerState()
-                decrementatore += 0.5
+                decrementatore += 0.3
                 secondiMancanti = timerManager.secondsRemaining - Double(decrementatore)
                 print(decrementatore)
             }
