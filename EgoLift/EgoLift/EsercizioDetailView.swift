@@ -6,9 +6,6 @@ struct EsercizioDetailView: View {
     @State private var isViewingNotes: Bool = false
     @ObservedObject var sharedState: SharedState
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    @Environment(\.scenePhase) var scenePhase
-    @State private var secondiMancanti: Double = 0
-    @State private var decrementatore: Double = 0
 
     var body: some View {
         VStack(spacing: 16) {
@@ -27,8 +24,6 @@ struct EsercizioDetailView: View {
             if timerManager.timerRunning {
                 Button(action: {
                     timerManager.stopTimer()
-                    sharedState.isTimerRunning = false
-                    decrementatore = 0
                 }) {
                     Text("Stop Timer")
                 }
@@ -36,9 +31,6 @@ struct EsercizioDetailView: View {
             } else {
                 Button(action: {
                     timerManager.startTimer(duration: Double(esercizio.tempoRecupero), for: esercizio.id)
-                    sharedState.isTimerRunning = true
-                    secondiMancanti = timerManager.secondsRemaining
-                    decrementatore = 0
                 }) {
                     Text("Avvia Timer")
                 }
@@ -46,16 +38,14 @@ struct EsercizioDetailView: View {
             }
             
             if timerManager.timerRunning {
-                if secondiMancanti >= 0 {
-                    Text("Tempo rimanente: \(Int(secondiMancanti)) secondi")
-                        .font(.largeTitle)
-                        .padding()
-                    
-                    ProgressView(value: secondiMancanti, total: Double(esercizio.tempoRecupero))
-                        .progressViewStyle(LinearProgressViewStyle(tint: timerManager.currentEsercizioID == esercizio.id ? Color.green : Color.red))
-                        .padding()
-                        .animation(.linear(duration: 0.1), value: secondiMancanti)
-                }
+                Text("Tempo rimanente: \(Int(timerManager.secondsRemaining)) secondi")
+                    .font(.largeTitle)
+                    .padding()
+                
+                ProgressView(value: timerManager.secondsRemaining, total: Double(esercizio.tempoRecupero))
+                    .progressViewStyle(LinearProgressViewStyle(tint: timerManager.currentEsercizioID == esercizio.id ? Color.green : Color.red))
+                    .padding()
+                    .animation(.linear(duration: 0.1), value: timerManager.secondsRemaining)
             }
             
             Spacer()
@@ -67,31 +57,7 @@ struct EsercizioDetailView: View {
         }
         .onAppear {
             sharedState.esercizioDetailView = true
-            timerManager.updateRemainingTime()
             timerManager.loadTimerState()
-            secondiMancanti = timerManager.secondsRemaining
-            decrementatore = 0
-        }
-        .onChange(of: scenePhase) { newPhase in
-            if newPhase == .active {
-                timerManager.updateRemainingTime()
-                timerManager.loadTimerState()
-                decrementatore += 0.3
-                secondiMancanti = timerManager.secondsRemaining - Double(decrementatore)
-                print(decrementatore)
-            }
-        }
-        .onReceive(timerManager.$secondsRemaining) { _ in
-            secondiMancanti = max(timerManager.secondsRemaining - Double(decrementatore), 0)
-            if !timerManager.timerRunning {
-                sharedState.isTimerRunning = false
-                decrementatore = 0
-            }
-        }
-        .onReceive(timerManager.$timerRunning) { timerRunning in
-            if !timerRunning {
-                sharedState.isTimerRunning = false
-            }
         }
         .padding()
         .navigationBarTitle(esercizio.nome)

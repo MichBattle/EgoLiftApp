@@ -49,7 +49,6 @@ class TimerManager: ObservableObject {
                     self.timerRunning = false
                     self.currentEsercizioID = nil
                     self.clearTimerState()
-                    self.sendCompletionNotification()
                 }
             }
         }
@@ -58,8 +57,8 @@ class TimerManager: ObservableObject {
     
     private func scheduleNotification() {
         let content = UNMutableNotificationContent()
-        content.title = "Timer Complete"
-        content.body = "Your timer has completed."
+        content.title = "Parti col set"
+        content.body = "Riposo finito!"
         content.sound = UNNotificationSound.default
         
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: secondsRemaining, repeats: false)
@@ -70,17 +69,6 @@ class TimerManager: ObservableObject {
     
     private func removeNotification() {
         UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["timerNotification"])
-    }
-    
-    private func sendCompletionNotification() {
-        let content = UNMutableNotificationContent()
-        content.title = "Timer Complete"
-        content.body = "Your timer has completed."
-        content.sound = UNNotificationSound.default
-        
-        let request = UNNotificationRequest(identifier: "timerCompletionNotification", content: content, trigger: nil)
-        
-        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
     }
     
     func saveTimerState() {
@@ -99,7 +87,6 @@ class TimerManager: ObservableObject {
         if let savedTimerRunning = UserDefaults.standard.value(forKey: "timerRunning") as? Bool {
             timerRunning = savedTimerRunning
             if timerRunning {
-                updateRemainingTime()
                 runTimer()
             }
         }
@@ -120,18 +107,4 @@ class TimerManager: ObservableObject {
         UserDefaults.standard.removeObject(forKey: "lastSavedDate")
     }
     
-    func updateRemainingTime() {
-        if let lastSavedDate = UserDefaults.standard.value(forKey: "lastSavedDate") as? Date {
-            let timeElapsed = Date().timeIntervalSince(lastSavedDate)
-            if secondsRemaining > 0 {
-                secondsRemaining -= timeElapsed
-                if secondsRemaining <= 0 {
-                    secondsRemaining = 0
-                    timerRunning = false
-                    currentEsercizioID = nil
-                    clearTimerState()
-                }
-            }
-        }
-    }
 }
