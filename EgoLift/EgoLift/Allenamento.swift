@@ -22,15 +22,16 @@ class Allenamento: Identifiable, ObservableObject, Equatable {
     }
 
     func aggiungiEsercizioEsistente(esercizio: Esercizio) -> Bool {
-        if !esercizi.contains(where: { $0.id == esercizio.id }) {
-            if DatabaseManager.shared.addEsercizioEsistente(esercizio: esercizio, to: self.id) {
-                esercizi.append(esercizio)
-                return true
+            if !esercizi.contains(where: { $0.id == esercizio.id }) {
+                let copiaEsercizio = esercizio.copia()
+                if DatabaseManager.shared.addEsercizioEsistente(esercizio: copiaEsercizio, to: self.id) {
+                    esercizi.append(copiaEsercizio)
+                    return true
+                }
+                return false
             }
             return false
         }
-        return false
-    }
 
     func rimuoviEsercizio(esercizio: Esercizio) {
         if let index = esercizi.firstIndex(of: esercizio) {

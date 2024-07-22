@@ -7,7 +7,7 @@ struct EsercizioEditView: View {
     @State private var descrizione: String
     @State private var tempoRecupero: String
     @State private var alert: Bool = false
-    
+
     init(esercizio: Esercizio, isPresented: Binding<Bool>) {
         self.esercizio = esercizio
         _nome = State(initialValue: esercizio.nome)
@@ -15,7 +15,7 @@ struct EsercizioEditView: View {
         _tempoRecupero = State(initialValue: String(esercizio.tempoRecupero))
         self._isPresented = isPresented
     }
-    
+
     var body: some View {
         NavigationView {
             VStack(spacing: 16) {
@@ -30,7 +30,7 @@ struct EsercizioEditView: View {
                                 .stroke(Color.gray, lineWidth: 1)
                         )
                 }
-                
+
                 VStack(alignment: .leading, spacing: 8) {
                     Text("Descrizione Esercizio")
                         .font(.headline)
@@ -42,7 +42,7 @@ struct EsercizioEditView: View {
                                 .stroke(Color.gray, lineWidth: 1)
                         )
                 }
-                
+
                 VStack(alignment: .leading, spacing: 8) {
                     Text("Tempo di Recupero (secondi)")
                         .font(.headline)
@@ -61,14 +61,20 @@ struct EsercizioEditView: View {
                             }
                         }
                 }
-                
+
                 Button(action: {
                     if !DatabaseManager.shared.esercizioEsisteGlobalmente(nome: nome, descrizione: descrizione) {
                         if let recupero = Int(tempoRecupero) {
-                            esercizio.nome = nome
-                            esercizio.descrizione = descrizione
-                            esercizio.tempoRecupero = recupero
-                            isPresented = false
+                            // Update esercizio in the database
+                            let success = DatabaseManager.shared.updateEsercizio(id: esercizio.id, nome: nome, descrizione: descrizione, tempoRecupero: recupero)
+                            if success {
+                                esercizio.nome = nome
+                                esercizio.descrizione = descrizione
+                                esercizio.tempoRecupero = recupero
+                                isPresented = false
+                            } else {
+                                alert.toggle()
+                            }
                         }
                     } else {
                         alert.toggle()
@@ -77,17 +83,17 @@ struct EsercizioEditView: View {
                     Text("Salva Modifiche")
                 }
                 .padding()
-                .alert("Esiste già un sercizio con lo stesso nome e descrizione!", isPresented: $alert) {
-                    Button("Ok", role: .cancel){
+                .alert("Esiste già un esercizio con lo stesso nome e descrizione!", isPresented: $alert) {
+                    Button("Ok", role: .cancel) {
                         alert = false
                     }
                 }
-                
+
                 Spacer()
             }
             .padding()
             .navigationBarTitle("Modifica Esercizio", displayMode: .inline)
-            .onDisappear(){
+            .onDisappear() {
                 isPresented = false
             }
         }

@@ -299,4 +299,18 @@ class DatabaseManager {
         }
         return nil
     }
+    
+    func updateEsercizio(id: Int64, nome: String, descrizione: String, tempoRecupero: Int) -> Bool {
+            let query = eserciziTable.filter(self.id == id)
+            do {
+                let update = query.update(self.nome <- nome, self.descrizione <- descrizione, self.tempoRecupero <- tempoRecupero)
+                if try db?.run(update) ?? 0 > 0 {
+                    print("Esercizio \(nome) aggiornato con successo")
+                    return true
+                }
+            } catch {
+                print("Error updating esercizio: \(error)")
+            }
+            return false
+        }
 }

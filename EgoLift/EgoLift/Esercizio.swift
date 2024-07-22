@@ -39,6 +39,10 @@ class Esercizio: Identifiable, ObservableObject, Equatable, Hashable {
     private func salvaNoteNelDatabase(content: String) {
         DatabaseManager.shared.updateEsercizio(nome: nome, nuovaNota: content)
     }
+    
+    func copia() -> Esercizio {
+            return Esercizio(id: Int64.random(in: Int64.min...Int64.max), nome: self.nome, descrizione: self.descrizione, tempoRecupero: self.tempoRecupero, numeroSet: self.numeroSet, tipo: self.tipo, isOriginal: false)
+        }
 
     static func == (lhs: Esercizio, rhs: Esercizio) -> Bool {
         return lhs.id == rhs.id // Confrontiamo gli esercizi usando l'ID

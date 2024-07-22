@@ -43,7 +43,7 @@ struct EserciziCategoriaView: View {
                             Button(action: {
                                 if let onAddEsercizio = onAddEsercizio {
                                     if onAddEsercizio(esercizio) {
-                                        // Handle successful addition
+                                        
                                     } else {
                                         // Handle failed addition
                                     }
