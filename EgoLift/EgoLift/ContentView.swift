@@ -38,6 +38,12 @@ struct ContentView: View {
                 
                 Spacer()
                 
+//                DEBUG
+//                NavigationLink(destination: TuttiEserciziView(sharedState: sharedState)) {
+//                    Text("Tutti")
+//                        .frame(width: 60, height: 30)
+//                }
+                
                 customTabBar
             }
         }
