@@ -10,7 +10,7 @@ class EsercizioNote: Identifiable {
 }
 
 class Esercizio: Identifiable, ObservableObject, Equatable, Hashable {
-    var id: Int64
+    @Published var id: Int64
     @Published var nome: String
     @Published var descrizione: String
     @Published var tempoRecupero: Int

@@ -19,10 +19,11 @@ struct TuttiEserciziView: View {
                         VStack(alignment: .leading) {
                             Text(esercizio.nome)
                                 .font(.headline)
-                            Text("Numero Set: \(esercizio.numeroSet)")
-                                .font(.subheadline)
                             Text("Tempo di recupero: \(esercizio.tempoRecupero) secondi")
                                 .font(.subheadline)
+                            Text("Descrizione: \(esercizio.descrizione)")
+                                .font(.subheadline)
+                            Text("ID: \(esercizio.id)")
                         }
                     }
                 }

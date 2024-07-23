@@ -23,9 +23,9 @@ struct EserciziCategoriaView: View {
                             VStack(alignment: .leading) {
                                 Text(esercizio.nome)
                                     .font(.headline)
-                                Text("Numero Set: \(esercizio.numeroSet)")
-                                    .font(.subheadline)
                                 Text("Tempo di recupero: \(esercizio.tempoRecupero) secondi")
+                                    .font(.subheadline)
+                                Text("Descrizione: \(esercizio.descrizione)")
                                     .font(.subheadline)
                             }
                         }
@@ -34,9 +34,9 @@ struct EserciziCategoriaView: View {
                             VStack(alignment: .leading) {
                                 Text(esercizio.nome)
                                     .font(.headline)
-                                Text("Numero Set: \(esercizio.numeroSet)")
-                                    .font(.subheadline)
                                 Text("Tempo di recupero: \(esercizio.tempoRecupero) secondi")
+                                    .font(.subheadline)
+                                Text("Descrizione: \(esercizio.descrizione)")
                                     .font(.subheadline)
                             }
                             Spacer()
@@ -45,7 +45,7 @@ struct EserciziCategoriaView: View {
                                     if onAddEsercizio(esercizio) {
                                         
                                     } else {
-                                        // Handle failed addition
+                                        
                                     }
                                 }
                             }) {
