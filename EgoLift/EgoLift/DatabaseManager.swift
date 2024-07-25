@@ -301,16 +301,32 @@ class DatabaseManager {
     }
     
     func updateEsercizio(id: Int64, nome: String, descrizione: String, tempoRecupero: Int) -> Bool {
-            let query = eserciziTable.filter(self.id == id)
-            do {
-                let update = query.update(self.nome <- nome, self.descrizione <- descrizione, self.tempoRecupero <- tempoRecupero)
-                if try db?.run(update) ?? 0 > 0 {
-                    print("Esercizio \(nome) aggiornato con successo")
-                    return true
-                }
-            } catch {
-                print("Error updating esercizio: \(error)")
+        let query = eserciziTable.filter(self.id == id)
+        do {
+            let update = query.update(self.nome <- nome, self.descrizione <- descrizione, self.tempoRecupero <- tempoRecupero)
+            if try db?.run(update) ?? 0 > 0 {
+                print("Esercizio \(nome) aggiornato con successo")
+                return true
             }
-            return false
+        } catch {
+            print("Error updating esercizio: \(error)")
         }
+        return false
+    }
+    
+    func removeNotaFromEsercizio(nome: String, descrizione: String, notaContent: String) {
+        let query = eserciziTable.filter(self.nome == nome && self.descrizione == descrizione)
+        do {
+            for esercizio in try db!.prepare(query) {
+                let existingNotes = esercizio[self.note].split(separator: ";").map { String($0) }
+                let updatedNotes = existingNotes.filter { $0 != notaContent }.joined(separator: ";")
+                let updateQuery = query.filter(self.id == esercizio[self.id])
+                try db?.run(updateQuery.update(self.note <- updatedNotes))
+                print("Nota rimossa da esercizio \(nome) con descrizione \(descrizione)")
+            }
+        } catch {
+            print("Error removing nota from esercizio: \(error)")
+        }
+    }
+
 }

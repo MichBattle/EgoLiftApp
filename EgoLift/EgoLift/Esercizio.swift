@@ -41,8 +41,8 @@ class Esercizio: Identifiable, ObservableObject, Equatable, Hashable {
     }
     
     func copia() -> Esercizio {
-            return Esercizio(id: Int64.random(in: Int64.min...Int64.max), nome: self.nome, descrizione: self.descrizione, tempoRecupero: self.tempoRecupero, numeroSet: self.numeroSet, tipo: self.tipo, isOriginal: false)
-        }
+        return Esercizio(id: Int64.random(in: Int64.min...Int64.max), nome: self.nome, descrizione: self.descrizione, tempoRecupero: self.tempoRecupero, numeroSet: self.numeroSet, tipo: self.tipo, isOriginal: false)
+    }
 
     static func == (lhs: Esercizio, rhs: Esercizio) -> Bool {
         return lhs.id == rhs.id // Confrontiamo gli esercizi usando l'ID
@@ -50,5 +50,14 @@ class Esercizio: Identifiable, ObservableObject, Equatable, Hashable {
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
+    }
+    
+    func rimuoviNota(nota: EsercizioNote) {
+        note.removeAll { $0.id == nota.id }
+        salvaRimozioneNotaNelDatabase(content: nota.content)
+    }
+
+    private func salvaRimozioneNotaNelDatabase(content: String) {
+        DatabaseManager.shared.removeNotaFromEsercizio(nome: nome, descrizione: descrizione, notaContent: content)
     }
 }

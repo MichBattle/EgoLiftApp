@@ -30,6 +30,9 @@ struct NoteListView: View {
     }
     
     private func eliminaNota(at offsets: IndexSet) {
-        esercizio.note.remove(atOffsets: offsets)
+        for index in offsets {
+            let notaDaRimuovere = esercizio.note[index]
+            esercizio.rimuoviNota(nota: notaDaRimuovere)
+        }
     }
 }
