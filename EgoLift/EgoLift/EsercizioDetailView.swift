@@ -9,6 +9,12 @@ struct EsercizioDetailView: View {
 
     var body: some View {
         VStack(spacing: 16) {
+            Text("Gruppo muscolare: \(esercizio.tipo)")
+                .padding()
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .background(Color.gray.opacity(0.1))
+                .cornerRadius(8)
+            
             Text(esercizio.descrizione)
                 .padding()
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -29,12 +35,14 @@ struct EsercizioDetailView: View {
                 }
                 .padding()
             } else {
-                Button(action: {
-                    timerManager.startTimer(duration: Double(esercizio.tempoRecupero), for: esercizio.id)
-                }) {
-                    Text("Avvia Timer")
+                if esercizio.tempoRecupero > 0{
+                    Button(action: {
+                        timerManager.startTimer(duration: Double(esercizio.tempoRecupero), for: esercizio.id)
+                    }) {
+                        Text("Avvia Timer")
+                    }
+                    .padding()
                 }
-                .padding()
             }
             
             if timerManager.timerRunning {

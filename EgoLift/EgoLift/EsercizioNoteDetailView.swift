@@ -7,6 +7,12 @@ struct EsercizioNoteDetailView: View {
 
     var body: some View {
         VStack(spacing: 16) {
+            Text("Gruppo muscolare: \(esercizio.tipo)")
+                .padding()
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .background(Color.gray.opacity(0.1))
+                .cornerRadius(8)
+            
             Text(esercizio.descrizione)
                 .padding()
                 .frame(maxWidth: .infinity, alignment: .leading)
