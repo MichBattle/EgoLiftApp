@@ -38,7 +38,7 @@ struct ContentView: View {
                 
                 Spacer()
                 
-//                DEBUG
+//                DATABASE DEBUG
 //                NavigationLink(destination: TuttiEserciziView(sharedState: sharedState)) {
 //                    Text("Tutti")
 //                        .frame(width: 60, height: 30)

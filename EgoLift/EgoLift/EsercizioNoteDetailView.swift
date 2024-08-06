@@ -13,7 +13,7 @@ struct EsercizioNoteDetailView: View {
                 .background(Color.gray.opacity(0.1))
                 .cornerRadius(8)
             
-            Text(esercizio.descrizione)
+            Text(esercizio.numeroSet + "\n" + esercizio.descrizione)
                 .padding()
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .background(Color.gray.opacity(0.1))
@@ -50,7 +50,7 @@ struct EsercizioNoteDetailView: View {
         .onDisappear(){
             sharedState.esercizioNoteDetailView = false
         }
-        .navigationBarTitle(esercizio.nome)
+        .navigationBarTitle(esercizio.nome, displayMode: .inline)
         .navigationBarItems(trailing: NavigationLink(destination: NoteListView(esercizio: esercizio, sharedState: sharedState)) {
             Text("Note")
         })

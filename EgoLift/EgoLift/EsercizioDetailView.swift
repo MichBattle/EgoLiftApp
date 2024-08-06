@@ -15,7 +15,7 @@ struct EsercizioDetailView: View {
                 .background(Color.gray.opacity(0.1))
                 .cornerRadius(8)
             
-            Text(esercizio.descrizione)
+            Text(esercizio.numeroSet + "\n" + esercizio.descrizione)
                 .padding()
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .background(Color.gray.opacity(0.1))
@@ -46,9 +46,10 @@ struct EsercizioDetailView: View {
             }
             
             if timerManager.timerRunning {
-                Text("Tempo rimanente: \(Int(timerManager.secondsRemaining)) secondi")
-                    .font(.largeTitle)
+                Text("Tempo rimanente: \(Int(timerManager.secondsRemaining + 1)) secondi")
+                    .font(.title)
                     .padding()
+                    .multilineTextAlignment(.center)
                 
                 ProgressView(value: timerManager.secondsRemaining, total: Double(esercizio.tempoRecupero))
                     .progressViewStyle(LinearProgressViewStyle(tint: timerManager.currentEsercizioID == esercizio.id ? Color.green : Color.red))
@@ -68,7 +69,7 @@ struct EsercizioDetailView: View {
             timerManager.loadTimerState()
         }
         .padding()
-        .navigationBarTitle(esercizio.nome)
+        .navigationBarTitle(esercizio.nome, displayMode: .inline)
         .navigationBarItems(trailing: NavigationLink(destination: NoteListView(esercizio: esercizio, sharedState: sharedState)) {
             Text("Note")
         })

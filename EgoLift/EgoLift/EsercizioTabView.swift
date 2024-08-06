@@ -13,7 +13,7 @@ struct EsercizioTabView: View {
             }
         }
         .tabViewStyle(PageTabViewStyle(indexDisplayMode: .automatic))
-        .navigationBarTitle(esercizi[currentIndex].nome)
+        .navigationBarTitle(esercizi[currentIndex].nome, displayMode: .inline)
         .onChange(of: currentIndex) { newIndex in
             // Update the navigation bar title with the new exercise name
             if esercizi.indices.contains(newIndex) {
