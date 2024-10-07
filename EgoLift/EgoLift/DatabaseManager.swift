@@ -7,16 +7,16 @@ class DatabaseManager {
     private let allenamentiTable = Table("allenamenti")
     private let eserciziTable = Table("esercizi")
     
-    private let id = Expression<Int64>("id")
-    private let nome = Expression<String>("nome")
-    
-    private let allenamentoID = Expression<Int64>("allenamento_id")
-    private let descrizione = Expression<String>("descrizione")
-    private let tempoRecupero = Expression<Int>("tempo_recupero")
-    private let note = Expression<String>("note")
-    private let numeroSet = Expression<String>("numero_set")
-    private let tipo = Expression<String>("tipo")
-    private let isOriginal = Expression<Bool>("is_original")
+    private let id = SQLite.Expression<Int64>("id")
+    private let nome = SQLite.Expression<String>("nome")
+    private let allenamentoID = SQLite.Expression<Int64>("allenamento_id")
+    private let descrizione = SQLite.Expression<String>("descrizione")
+    private let tempoRecupero = SQLite.Expression<Int>("tempo_recupero")
+    private let note = SQLite.Expression<String>("note")
+    private let numeroSet = SQLite.Expression<String>("numero_set")
+    private let tipo = SQLite.Expression<String>("tipo")
+    private let isOriginal = SQLite.Expression<Bool>("is_original")
+
     
     private init() {
         do {
